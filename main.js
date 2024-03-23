@@ -5,15 +5,21 @@ const cookieParser = require('cookie-parser');
 const settings = require('./app/settings');
 
 //import local module
-const  { notFoundHandler, errorHandler} = require('./middleware/errorHandlerMiddleware')
+const publicRouter = require('./router/public');
+const authRouter   = require('./router/auth')
+
 
 //main application start
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//database connection
+app.locals = {
+    message: null,
+    date: (new Date()),
+}
 
+//application database
 
 //view engine configuration
 app.set('view engine', "ejs")
@@ -28,12 +34,14 @@ app.use(cookieParser(settings.cookie_screet))
 
 
 //routeing setup
+app.use(publicRouter)
+app.use(authRouter)
 
 
 
 //error handlers
-app.use(notFoundHandler);
-app.use(errorHandler);
+// app.use(notFoundHandler);
+// app.use(errorHandler);
 
 //404 not found handler
 

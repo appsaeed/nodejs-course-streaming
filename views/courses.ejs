@@ -1,0 +1,35 @@
+<%- include('layout/header.ejs',{title: 'Courses'}) %>
+
+<!-- courses section starts  -->
+
+<section class="courses">
+
+   <h1 class="heading">all courses</h1>
+
+   <div class="box-container">
+
+      <% if (playlist && playlist.length > 0) { %>
+         <% playlist.forEach(list => { %>
+            <div class="box">
+               <div class="tutor">
+                  <img src="uploaded_files/<%= list.tutor.image %>" alt="">
+                  <div>
+                     <h3><%= list.tutor.name %></h3>
+                     <span><%= list.date %></span>
+                  </div>
+               </div>
+               <img src="uploaded_files/<%= list.thumb %>" class="thumb" alt="">
+               <h3 class="title"><%= list.title  %></h3>
+               <a href="playlist.php?get_id=<%= list.id %>" class="inline-btn">view playlist</a>
+            </div>
+         <% }) %>
+         <% } else { %>
+            <p class="empty">No courses added yet!</p>
+         <% } %>
+   </div>
+
+</section>
+
+<!-- courses section ends -->
+
+<%- include('layout/footer.ejs') %>
