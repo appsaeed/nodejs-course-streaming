@@ -15,6 +15,7 @@ p
 .caches
 *.local
 public/uploaded_files/*
+!public/uploaded_files
 # public/uploaded_files/
 
 # Editor directories and files
