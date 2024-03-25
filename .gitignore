@@ -10,10 +10,11 @@ lerna-debug.log*
 node_modules
 php
 build
+p
 .cache
 .caches
 *.local
-
+public/uploaded_files/*
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
