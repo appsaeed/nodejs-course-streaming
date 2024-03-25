@@ -15,6 +15,9 @@ router.post('/login', AdminController.loginPost)
 router.post('/register', upload.single('image'), AdminController.registerPost)
 
 router.get('/profile', admin, AdminController.profile )
+router.get('/profile/edit', admin, AdminController.editProfile)
+router.post('/profile/update', admin, upload.single('image'), AdminController.updateProfile)
+// router.post('/profile/update', upload.single('image'), admin, AdminController.updateProfile)
 router.get('/dashboard', admin, AdminController.dashboard )
 
 router.get('/playlists', admin, PlaylistController.index )

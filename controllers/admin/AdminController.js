@@ -1,4 +1,4 @@
-const { hash } = require('../../app/utilies');
+const { hash, hasCompare } = require('../../app/utilies');
 const Auth = require('../../model/Auth');
 const Playlist = require('../../model/Playlist');
 const Tutor = require('../../model/Tutor');
@@ -19,6 +19,7 @@ class AdminController extends Controller {
 
         res.render('admin/register')
     }
+
     /**
      * Create view and logic for index
      * @param {import('express').Request} req 
@@ -32,13 +33,76 @@ class AdminController extends Controller {
         const total_like = await Like.where('tutor_id', tutor_id ).count();
         const total_comment = await Comment.where('tutor_id', tutor_id ).count();
 
-        res.render('admin/profile', {
+        res.render('admin/profile/index', {
             total_comment,
             total_content,
             total_like,
             total_playlist
         })
     }
+
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async editProfile(req, res){
+        res.render('admin/profile/edit')
+    }
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async updateProfile(req, res){
+        
+        const tutor_id = res.locals?.tutor_id || '';
+        const user_password = res.locals?.tutor.password || ''; 
+        const old_password = req.body?.old_password || '';          
+        const new_password = req.body?.new_password || '';          
+        const confirm_password = req.body?.confirm_password || ''; 
+
+        const data = {
+            name: req.body?.name || "",
+            profession: req.body?.profession || "",
+        }
+
+        try {
+
+            if(new_password || confirm_password || old_password){
+                if(!hasCompare(old_password, user_password)){
+                    req.flash('messages', ['Prvous password is incorrect'])
+                    return res.redirect('back');
+                }else if(new_password != confirm_password){
+                    req.flash('messages', ['Password could not match with confirm password'])
+                    return res.redirect('back');
+                }else {
+                    data.password = hash(new_password);
+                }
+            }
+
+            if(new_password && confirm_password === new_password && hasCompare(old_password, user_password)){
+                data.password = hash(new_password);
+            }
+    
+            if(req.file?.filename){
+                data.image = req.file.filename;
+            }
+    
+            await Tutor.where('id', tutor_id).update(data);
+
+            req.flash('messages', ['profile was updated successfully!'])
+            return res.redirect('back');
+            
+        } catch (error) {
+            req.flash('messages', [error])
+            return res.redirect('back');
+        }
+    }
+
+
+
+
     /**
      * Create view and logic for index
      * @param {import('express').Request} req 

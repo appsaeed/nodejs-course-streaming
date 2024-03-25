@@ -22,7 +22,7 @@ class VideoController extends Controller {
 
         const videos = await Content.where('tutor_id', tutor_id).get();
 
-        res.render('admin/videos/index', { videos })
+        return res.render('admin/videos/index', { videos })
     }
     /**
      * Create view and logic for index

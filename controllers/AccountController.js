@@ -60,7 +60,7 @@ class AccountController {
      * @param {import('express').Response} res
      */
     static async update(req, res){
-        const user_id = res.locals?.user.id || ''; 
+        const user_id = res.locals?.user?.id || ''; 
         const user_password = res.locals?.user.password || ''; 
         const old_password = req.body?.old_password || '';          
         const new_password = req.body?.new_password || '';          

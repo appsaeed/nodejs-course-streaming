@@ -12,7 +12,7 @@ class BookmarkController extends Controller {
      * @param {import('express').Response} res
      */
     static async index(req, res) {
-        const user_id = res.locals?.user.id || '';
+        const user_id = res.locals?.user?.id || '';
 
         // Get bookmarks from the database
         const get_bookmark = await Bookmark.where('user_id', user_id).get();

@@ -2,7 +2,7 @@
 
 <!-- watch video section starts  -->
 
-<section class="watch-video">
+<section class="watch">
    <% if (video && tutor) { %>
       <div class="video-details">
          <video src="/uploaded_files/<%= video.video %>" class="video" poster="/uploaded_files/<%= video.thumb %>" controls autoplay></video>
@@ -12,7 +12,7 @@
                <i class="fas fa-calendar"></i>
                <span><%= video.date %></span>
             </p>
-            <p><i class="fas fa-heart"></i><span><%= $total_like %> likes</span></p>
+            <p><i class="fas fa-heart"></i><span><%= total_likes %> likes</span></p>
          </div>
          <div class="tutor">
             <img src="/uploaded_files/<%= tutor.image %>" alt="">
@@ -26,7 +26,7 @@
             <a href="/playlist/<%= video.playlist_id %>" class="inline-btn">
                view playlist
             </a>
-            <% if (total_like > 0) { %>
+            <% if (liked) { %>
                <button disabled type="submit" name="like_content">
                   <i class="fas fa-heart"></i>
                   <span>liked</span>
@@ -50,10 +50,13 @@
 
    <h1 class="heading">add a comment</h1>
 
-   <form action="" method="post" class="add-comment">
-      <input type="hidden" name="content_id" value="<?= $get_id; ?>">
-      <textarea name="comment_box" required placeholder="write your comment..." maxlength="1000" cols="30" rows="10"></textarea>
-      <input type="submit" value="add comment" name="add_comment" class="inline-btn">
+   <form action="/comments/store" method="post" class="add-comment">
+      <input type="hidden" name="video_id" value="<%= video?.id  %>">
+      <textarea name="comment" required placeholder="write your comment..." maxlength="1000" cols="30" rows="10"></textarea>
+      <input type="submit" value="add comment" class="inline-btn">
+      <% if (!user) { %>
+       <p><font color="red">You must be logged in to comment</font></p>
+      <% } %>
    </form>
 
    <h1 class="heading">user comments</h1>

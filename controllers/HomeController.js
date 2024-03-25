@@ -90,34 +90,6 @@ class HomeController extends Controller {
         res.render('courses' , {  playlist })
     }
 
-    /**
-     * Create view and logic for index
-     * @param {import('express').Request} req 
-     * @param {import('express').Response} res
-     */
-    static async contact(req, res){
-        // const like = await Like.where('user_id', user_id).count();
-        const getPlaylist = await Playlist.where('status', 'active')
-                .orderBy('date')
-                .limit(6)
-                .get();
-
-        
-        const playlistPromise = getPlaylist.map(async function(row){
-            const tutor = await Tutor.where('id', row.tutor_id).first();
-            return {
-                ...row,
-                tutor: tutor,
-            }
-        })
-
-        const playlist =  await Promise.all(playlistPromise);
-            
-        res.render('contact' , { 
-            playlist: playlist
-         })
-    }
-
 
     /**
      * Create view and logic for index
@@ -149,7 +121,7 @@ class HomeController extends Controller {
      * @param {import('express').Response} res
      */
     static async bookmark(req, res){
-        const user_id = res.locals?.user.id || '';
+        const user_id = res.locals?.user?.id || '';
         //get bookmark from database
         const allBookmark = await Bookmark.where('user_id', user_id).get();
 
@@ -189,7 +161,7 @@ class HomeController extends Controller {
      * @param {import('express').Response} res
      */
     static async like(req, res){
-        const user_id = res.locals?.user.id || '';
+        const user_id = res.locals?.user?.id || '';
         //get bookmark from database
         const all_likes = await Like.where('user_id', user_id).get();
 
@@ -228,7 +200,7 @@ class HomeController extends Controller {
      * @param {import('express').Response} res
      */
     static async comment(req, res){
-        const user_id = res.locals?.user.id || '';
+        const user_id = res.locals?.user?.id || '';
 
         //get bookmark from database
         const all_comments = await Comment.where('user_id', user_id).get();

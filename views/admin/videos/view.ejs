@@ -5,7 +5,7 @@
       <div class="container">
          <video src="/uploaded_files/<%= video.video %>" autoplay controls poster="/uploaded_files/<%= video.thumb %>" class="video"></video>
          <div class="date"><i class="fas fa-calendar"></i><span><?= $fetch_content['date']; ?></span></div>
-         <h3 class="title"><%= video.thumb %></h3>
+         <h3 class="title"><%= video.title %></h3>
          <div class="flex">
             <div><i class="fas fa-heart"></i><span><?= $total_likes; ?></span></div>
             <div><i class="fas fa-comment"></i><span><%= comments?.length %></span></div>

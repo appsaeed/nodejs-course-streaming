@@ -42,7 +42,7 @@
 
       <div class="profile">
          <% if (tutor) { %>
-            <img src="/uploaded_files/<%= tutor.image %>; ?>" alt="">
+            <img src="/uploaded_files/<%= tutor.image %>" alt="">
             <h3><%= tutor.name %></h3>
             <span><%= tutor.profession %></span>
             <a href="/admin/profile" class="btn">view profile</a>
@@ -72,8 +72,7 @@
 
    <div class="profile">
          <% if (tutor) { %>
-          
-            <img src="/uploaded_files/<%= tutor.image %> ?>" alt="">
+            <img src="/uploaded_files/<%= tutor.image %>" alt="">
             <h3><%= tutor.name %></h3>
             <span><%= tutor.profession %></span>
             <a href="/admin/profile" class="btn">view profile</a>

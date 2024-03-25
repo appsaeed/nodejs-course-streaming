@@ -42,16 +42,18 @@ class PlaylistController extends Controller {
     static async watchVideo(req, res) {
 
         //get user from postgres database
-        const user_id = res.locals?.user.id || '';
+        const user_id = res.locals?.user?.id || '';
         const video_id = req.params?.video_id || '';
         const video = await Content.find(video_id);
         const tutor_id = video?.tutor_id || '';
         
         const tutor = await Tutor.find(tutor_id);
-        const total_like = await Like.where('user_id', user_id).count();
+        const likes = await Like.where('user_id', video_id).get();
+        const total_likes = likes.length;
+        const liked = likes.find( (item ) => item.user_id === user_id)
         const all_comments = await Comment.where('content_id', video_id).get();
 
-        const commentsPomise = all_comments.map(async function (comment) {
+        const comments = await Promise.all(all_comments.map(async function (comment) {
             const user = await User.find(comment.user_id)
             const tutor = await Tutor.find(comment.tutor_id)
             return {
@@ -59,15 +61,14 @@ class PlaylistController extends Controller {
                 user: user,
                 tutor: tutor,
             }
-        })
-
-        const comments = await Promise.all(commentsPomise)
+        }))
 
         res.render('watch_video', {
             video: video,
             tutor: tutor,
-            total_like: total_like,
-            comments: comments
+            total_likes,
+            comments,
+            liked
         })
     }
     /**
@@ -77,7 +78,7 @@ class PlaylistController extends Controller {
      */
     static async savePlaylist(req, res) {
         try {
-            const user_id = res.locals?.user.id || '';
+            const user_id = res.locals?.user?.id || '';
             const playlist_id = req.body?.playlist_id || '';
 
 

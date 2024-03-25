@@ -7,16 +7,16 @@
    <div class="row">
 
       <div class="image">
-         <img src="images/contact-img.svg" alt="">
+         <img src="/images/contact-img.svg" alt="">
       </div>
 
-      <form action="" method="post">
+      <form action="/contact" method="post">
          <h3>get in touch</h3>
-         <input type="text" placeholder="enter your name" required maxlength="100" name="name" class="box">
-         <input type="email" placeholder="enter your email" required maxlength="100" name="email" class="box">
-         <input type="number" min="0" max="9999999999" placeholder="enter your number" required maxlength="10" name="number" class="box">
-         <textarea name="msg" class="box" placeholder="enter your message" required cols="30" rows="10" maxlength="1000"></textarea>
-         <input type="submit" value="send message" class="inline-btn" name="submit">
+         <input type="text" placeholder="enter your name" required maxlength="100" name="name" class="box" value="<%= user?.name %>">
+         <input type="email" placeholder="enter your email" required maxlength="100" name="email" class="box" value="<%= user?.email %>">
+         <input type="text" min="0" max="9999999999" placeholder="enter your number" required maxlength="10" name="number" class="box">
+         <textarea name="message" class="box" placeholder="enter your message" required cols="30" rows="10" maxlength="1000"></textarea>
+         <input type="submit" value="send message" class="inline-btn">
       </form>
 
    </div>

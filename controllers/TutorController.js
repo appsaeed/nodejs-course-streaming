@@ -72,7 +72,7 @@ class TutorController extends Controller {
      * @param {import('express').Response} res
      */
     static async watchVideo(req, res) {
-        const user_id = res.locals?.user.id || '';
+        const user_id = res.locals?.user?.id || '';
         const video_id = req.params?.video_id || '';
         const video = await Content.find(video_id);
         const tutor_id = video?.tutor_id || '';

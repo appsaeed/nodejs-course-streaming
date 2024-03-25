@@ -66,7 +66,7 @@
    <div class="box-container">
       <% if (videos?.length > 0) { %>
       <% videos.forEach(video => { %>
-         <a href="/watch-video/<%= video.id %>" class="box">
+         <a href="/watch/<%= video.id %>" class="box">
             <i class="fas fa-play"></i>
             <img src="/uploaded_files/<%= video.thumb %>" alt="">
             <h3><%= video.title %></h3>

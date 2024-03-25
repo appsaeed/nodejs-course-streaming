@@ -1,0 +1,50 @@
+<%- include('../layout/admin_header.ejs', { title : 'Update teacher profile'}) %>
+
+<!-- register section starts  -->
+
+<section class="form-container" style="min-height: calc(100vh - 19rem);">
+
+   <form class="register" action="/admin/profile/update" method="post" enctype="multipart/form-data">
+      <h3>update profile</h3>
+      <div class="flex">
+         <div class="col">
+            <p>your name </p>
+            <input type="text" name="name" value="<%= tutor.name  %>" maxlength="50"  class="box">
+            <p>your profession </p>
+            <select name="profession" class="box">
+               <option value="developer" 
+               <%= tutor.profession === 'developer' ? 'selected' : ""  %>>developer</option>
+               <option value="desginer" 
+               <%= tutor.profession === 'desginer' ? 'selected' : ""  %>>desginer</option>
+               <option value="musician" <%= tutor.profession === 'musician' ? 'selected' : ""  %>>musician</option>
+               <option value="biologist" <%= tutor.profession === 'biologist' ? 'selected' : ""  %>>biologist</option>
+               <option value="teacher" <%= tutor.profession === 'teacher' ? 'selected' : ""  %>>teacher</option>
+               <option value="engineer" <%= tutor.profession === "engineer" ? 'selected' : ""  %>>engineer</option>
+               <option value="lawyer" <%= tutor.profession === 'lawyer' ? 'selected' : ""  %>>lawyer</option>
+               <option value="accountant" <%= tutor.profession === 'accountant' ? 'selected' : ""  %>>accountant</option>
+               <option value="doctor" <%= tutor.profession === 'doctor' ? 'selected' : ""  %>>doctor</option>
+               <option value="journalist" <%= tutor.profession === 'journalist' ? 'selected' : ""  %>>journalist</option>
+               <option value="photographer" <%= tutor.profession === 'photographer' ? 'selected' : ""  %>>photographer</option>
+            </select>
+            <p>your email </p>
+            <input type="email" disabled style="cursor: not-allowed;" name="email" value="<%= tutor.email  %>" maxlength="20"  class="box">
+         </div>
+         <div class="col">
+            <p>old password :</p>
+            <input type="password" name="old_password" placeholder="enter your old password" maxlength="20"  class="box">
+            <p>new password :</p>
+            <input type="password" name="new_password" placeholder="enter your new password" maxlength="20"  class="box">
+            <p>confirm password :</p>
+            <input type="password" name="confirm_password" placeholder="confirm your new password" maxlength="20"  class="box">
+         </div>
+      </div>
+      <p>update pic :</p>
+      <input type="file" name="image" accept="image/*"  class="box">
+      <input type="submit" value="update now" class="btn">
+   </form>
+
+</section>
+
+<!-- registe section ends -->
+
+<%- include('../layout/admin_footer.ejs') %>

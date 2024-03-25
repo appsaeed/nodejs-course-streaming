@@ -2,14 +2,12 @@
    
 <section class="contents">
 
-   <h1 class="heading">your contents</h1>
+   <div style="display:flex; justify-content: space-between;" class="heading">
+      <div><h3 style="padding: 0;">your contents</h3></div>
+      <div><a href="/admin/videos/add" class="btn">add content</a></div>
+   </div>
 
    <div class="box-container">
-
-   <div class="box" style="text-align: center;">
-      <h3 class="title" style="margin-bottom: .5rem;">create new content</h3>
-      <a href="/admin/videos/add" class="btn">add content</a>
-   </div>
    <% if (videos?.length > 0) { %>
    <% videos.forEach(video => { %>
    <% const statusClass = video.status === 'active' ? 'color:limegreen' : 'color:red' %>
