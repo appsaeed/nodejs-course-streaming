@@ -1,6 +1,7 @@
 const db = require('../app/db');
 
 class Model {
+    static selectIndex = 0;
     static whereIndex = 6;
     static orderIndex = 7;
     static limitIndex = 8;
@@ -35,7 +36,7 @@ class Model {
     }
 
     static async count() {
-        const count = await this.get();
+        const count = await this.all();
         return count.length || 0;
     }
 

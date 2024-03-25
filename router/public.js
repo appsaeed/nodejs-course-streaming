@@ -16,6 +16,8 @@ router.get('/', auth, HomeController.index)
 router.get('/home',auth,  HomeController.index)
 router.get('/about',auth,  HomeController.about)
 router.get('/courses',auth,  HomeController.courses)
+router.get('/search_course',auth,  PlaylistController.searchCourse)
+// router.get('/search_tutor', auth,  TutorController.search)
 router.get('/teachers', auth, HomeController.teachers)
 
 router.get('/contact', auth,  ContactController.index)
@@ -26,10 +28,15 @@ router.get('/bookmark', auth ,  BookmarkController.index)
 
 router.get('/likes', auth,  HomeController.like)
 router.get('/likes/store', auth,  LikeController.store)
-router.get('/comments', auth,  HomeController.comment)
+router.get('/likes/update/:video_id', auth,  LikeController.updateLike)
+
+router.get('/comments', auth,  CommentController.index)
+router.get('/comments/edit/:comment_id', auth,  CommentController.edit)
+router.get('/comments/delete/:comment_id', auth,  CommentController.delete)
+router.post('/comments/update', auth,  CommentController.update)
 router.post('/comments/store', auth,  CommentController.store)
+
 router.get('/watch/:video_id', auth,  PlaylistController.watchVideo)
-// router.get('/watch/:playlist_id', auth,  PlaylistController.watchVideo)
 
 router.get('/playlist/:playlist_id', auth,  PlaylistController.index)
 

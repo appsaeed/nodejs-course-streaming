@@ -39,7 +39,6 @@ class Auth {
 
         const user = await Tutor.where('email', email).first();
         const hash = user?.password || '';
-
         if (user?.id && hasCompare(password, hash)) {
             res.cookie('tutor_id', user.id, { httpOnly: true });
             return true;

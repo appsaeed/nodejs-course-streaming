@@ -2,15 +2,12 @@
 
 <section class="playlists">
 
-   <h1 class="heading">added playlists</h1>
+   <div style="display:flex; justify-content: space-between;" class="heading">
+      <div><h3 style="padding: 0;">Your playlists</h3></div>
+      <div><a href="/admin/playlists/add" class="btn">add playlist</a></div>
+   </div>
 
-   <div class="box-container">
-   
-      <div class="box" style="text-align: center;">
-         <h3 class="title" style="margin-bottom: .5rem;">create new playlist</h3>
-         <a href="/admin/playlists/add" class="btn">add playlist</a>
-      </div>
-      
+   <div class="box-container">      
       <% if (playlists?.length > 0) { %>
       <% playlists.forEach(list => { %>
          <% const statusClass = list.status === 'active' ? 'color:limegreen' : 'color:red' %>

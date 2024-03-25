@@ -21,20 +21,16 @@
                <span><%= tutor.profession %></span>
             </div>
          </div>
-         <form action="" method="post" class="flex">
-            <input type="hidden" name="content_id" value="<%= video.id %>">
+         <div  class="flex">
             <a href="/playlist/<%= video.playlist_id %>" class="inline-btn">
                view playlist
             </a>
             <% if (liked) { %>
-               <button disabled type="submit" name="like_content">
-                  <i class="fas fa-heart"></i>
-                  <span>liked</span>
-               </button>
+               <a href="/likes/update/<%= video.id  %>" class="inline-option-btn" style="background-color: green;"><i class="far fa-heart"></i><span> liked</span></a>
             <% } else { %>
-               <button type="submit" name="like_content"><i class="far fa-heart"></i><span>like</span></button>
+               <a href="/likes/update/<%= video.id  %>" class="inline-option-btn"><i class="far fa-heart"></i><span>like</span></a>
             <% } %>
-         </form>
+         </div>
          <div class="description"><p><%= video.description %></p></div>
       </div>
    <% } else { %>
@@ -76,11 +72,14 @@
             </div>
             <p class="text"><%= comment.comment %></p>
             <% if (comment.user) { %>
-               <form action="" method="post" class="flex-btn">
-                  <input type="hidden" name="comment_id" value="<%= comment.id %>">
-                  <button type="submit" name="edit_comment" class="inline-option-btn">edit comment</button>
-                  <button type="submit" name="delete_comment" class="inline-delete-btn" onclick="return confirm('delete this comment?');">delete comment</button>
-               </form>
+               <a href="/comments/edit/<%= comment.id  %>" class="inline-option-btn">
+                  edit comment
+               </a>
+               <a href="/comments/delete/<%= comment.id  %>" class="inline-delete-btn"
+                  onclick="return confirm('delete this comment?');"
+                  >
+                  delete comment
+               </a>
             <% } %>
          </div>
        

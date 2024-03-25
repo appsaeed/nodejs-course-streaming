@@ -10,36 +10,21 @@
 
  <% if (likes && likes.length > 0 ) { %>
       <% likes.forEach(like => { %>      
-         
-         <% if (like.playlists && like.contents > 0) { %>
-         <% like.contents.forEach(content => { %>
-            
-            <% if (content.tutor) { %>
-               <div class="box">
-                  <div class="tutor">
-                     <img src="uploaded_files/<%= content.tutor.image  %>" alt="">
-                     <div>
-                        <h3><?= $fetch_tutor['name']; ?></h3>
-                        <span><?= $fetch_contents['date']; ?></span>
-                     </div>
-                  </div>
-                  <img src="uploaded_files/<%= content.thumb  %>" alt="" class="thumb">
-                  <h3 class="title"><%= content.title  %></h3>
-                  <form action="" method="post" class="flex-btn">
-                     <input type="hidden" name="content_id" value="<%= content.id  %>">
-                     <a href="watch_video.php?get_id=<%= content.id  %>" class="inline-btn">watch video</a>
-                     <input type="submit" value="remove" class="inline-delete-btn" name="remove">
-                  </form>
+         <div class="box">
+            <div class="tutor">
+               <img src="/uploaded_files/<%= like.tutor?.image  %>" alt="">
+               <div>
+                  <h3><%= like.tutor?.name  %></h3>
+                  <span><%= like.content?.date  %></span>
                </div>
-            <% } else { %>
-               <p class="empty">Tutor not found!</p>
-            <% } %>
-
-         <% }) %>
-         <% } else { %>
-         <p class="empty">Content was not found!</p>
-         <% } %>
-
+            </div>
+            <img src="/uploaded_files/<%= like.content?.thumb  %>" alt="" class="thumb">
+            <h3 class="title"><%= like.content?.title  %></h3>
+            <div class="flex-btn">
+               <a href="/watch/<%= like.content?.id  %>" class="inline-btn">watch video</a>
+               <a href="/likes/update/<%= like.id  %>" class="inline-delete-btn"> delete </a>
+            </div>
+         </div>
       <% }) %>
       <% } else { %>
       <p class="empty">Nothing added to likes yet!</p>

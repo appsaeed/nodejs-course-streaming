@@ -7,6 +7,7 @@ const Controller = require('../Controller');
 const Like = require('../../model/Like');
 const Comment = require('../../model/Comment');
 const User = require('../../model/User');
+const db = require('../../app/db');
 
 class VideoController extends Controller {
 
@@ -19,9 +20,10 @@ class VideoController extends Controller {
     static async index(req, res) {
 
         const tutor_id = Auth.tutor_id(req);
-
-        const videos = await Content.where('tutor_id', tutor_id).get();
-
+        let videos = [];
+        // let videos = await Content.where('tutor_id', tutor_id).get();
+        videos = (await db.query(`SELECT * FROM content WHERE tutor_id = '${tutor_id}'`))
+        videos = videos.rows;
         return res.render('admin/videos/index', { videos })
     }
     /**
@@ -32,7 +34,6 @@ class VideoController extends Controller {
     static async view(req, res) {
 
         const video_id = req.params?.video_id || '';
-        // const tutor_id = Auth.tutor_id(req);
 
         const video = await Content.find(video_id);
 
@@ -48,7 +49,11 @@ class VideoController extends Controller {
             }
         }))
 
-        res.render('admin/videos/view', { video, comments ,total_likes });
+        return res.render('admin/videos/view', {
+            video,
+            comments: comments,
+            total_likes
+        });
     }
 
     /**
@@ -62,9 +67,9 @@ class VideoController extends Controller {
         const tutor_id = Auth.tutor_id(req);
 
         const video = await Content.find(video_id);
-        const playlists = await Playlist.where('tutor_id',tutor_id ).get();
+        const playlists = await Playlist.where('tutor_id', tutor_id).get();
 
-        res.render('admin/videos/edit', { video , playlists});
+        res.render('admin/videos/edit', { video, playlists });
     }
     /**
      * Create view and logic for index
@@ -78,22 +83,22 @@ class VideoController extends Controller {
             const video_id = req.body?.video_id || '';
             const video = await Content.find(video_id);
 
-            if(!video) {
+            if (!video) {
                 req.flash('messages', ['Video content was not found'])
                 return res.redirect('back')
             }
 
             const data = {
                 title: req.body?.title || video.title,
-                description: req.body?.description || video.description ,
+                description: req.body?.description || video.description,
                 status: req.body?.status || video.status,
                 playlist_id: req.body?.playlist_id || video.playlist_id
             }
 
-            if(Array.isArray(req.files?.thumb) && req.files?.thumb[0]?.filename){
+            if (Array.isArray(req.files?.thumb) && req.files?.thumb[0]?.filename) {
                 data.thumb = req.files?.thumb[0]?.filename;
             }
-            if(Array.isArray(req.files?.video) && req.files?.video[0]?.filename){
+            if (Array.isArray(req.files?.video) && req.files?.video[0]?.filename) {
                 data.video = req.files?.video[0]?.filename;
             }
 
@@ -121,7 +126,7 @@ class VideoController extends Controller {
                 req.flash('messages', ['Content deleted'])
                 return res.redirect('/admin/videos');
             }
-            
+
         } catch (error) {
             req.flash('messages', [error.message])
             return res.redirect('/admin/videos');
@@ -157,10 +162,10 @@ class VideoController extends Controller {
             date: (new Date()).toDateString(),
         }
 
-        if(Array.isArray(req.files?.thumb) && req.files?.thumb[0]?.filename){
+        if (Array.isArray(req.files?.thumb) && req.files?.thumb[0]?.filename) {
             data.thumb = req.files?.thumb[0]?.filename;
         }
-        if(Array.isArray(req.files?.video) && req.files?.video[0]?.filename){
+        if (Array.isArray(req.files?.video) && req.files?.video[0]?.filename) {
             data.video = req.files?.video[0]?.filename;
         }
 
@@ -182,130 +187,33 @@ class VideoController extends Controller {
         }
 
     }
-    /**
-     * Create view and logic for index
-     * @param {import('express').Request} req 
-     * @param {import('express').Response} res
-     */
-    static async profile(req, res) {
 
-        const tutor_id = res.locals?.tutor?.id || '';
-        const total_playlist = await Playlist.where('tutor_id', tutor_id).count();
-        const total_content = await Content.where('tutor_id', tutor_id).count();
-        const total_like = await Like.where('tutor_id', tutor_id).count();
-        const total_comment = await Comment.where('tutor_id', tutor_id).count();
-
-        res.render('admin/profile', {
-            total_comment,
-            total_content,
-            total_like,
-            total_playlist
-        })
-    }
-    /**
-     * Create view and logic for index
-     * @param {import('express').Request} req 
-     * @param {import('express').Response} res
-     */
-    static async dashboard(req, res) {
-
-        const tutor_id = res.locals?.tutor?.id || '';
-        const total_playlist = await Playlist.where('tutor_id', tutor_id).count();
-        const total_content = await Content.where('tutor_id', tutor_id).count();
-        const total_like = await Like.where('tutor_id', tutor_id).count();
-        const total_comment = await Comment.where('tutor_id', tutor_id).count();
-
-        res.render('admin/dashboard', {
-            total_comment,
-            total_content,
-            total_like,
-            total_playlist
-        })
-    }
 
     /**
      * Create view and logic for index
      * @param {import('express').Request} req 
      * @param {import('express').Response} res
      */
-    static async login(req, res) {
+    static async search(req, res) {
+        const search = String(req.query?.search || '');
+        const tutor_id = res.locals?.tutor_id || '';
+        const pQuery = await db.query(`SELECT * FROM playlist WHERE title LIKE '%${search}%' AND tutor_id = '${tutor_id}' ORDER BY date DESC`)
+        const all_playlists = pQuery.rows;
 
-        res.render('admin/login')
-        // res.render('admin/register')
-    }
-    /**
-     * Create view and logic for index
-     * @param {import('express').Request} req 
-     * @param {import('express').Response} res
-     */
-    static async loginPost(req, res) {
+        const vQuery = await db.query(`SELECT * FROM content WHERE title LIKE '%${search}%' AND tutor_id = '${tutor_id}' ORDER BY date DESC`)
+        const get_videos = vQuery.rows;
 
-        const email = req.body?.email || '';
-        const password = req.body?.password || '';
+        const playlists = await Promise.all(all_playlists.map(async (item) => {
+            const total_videos = await Content.where('playlist_id', item.id).count();
+            return { ...item, total_videos }
+        }))
 
-        const login = await Auth.tutorLogin(res, email, password);
+        const videos = await Promise.all(get_videos.map(async (item) => {
 
-        if (login) return res.redirect('/admin/profile');
+            return { ... item, }
+        }))
 
-        req.flash('messages', ['Email or password is incorrect!'])
-        return res.redirect('back');
-
-    }
-
-    /**
-     * Create view and logic for index
-     * @param {import('express').Request} req 
-     * @param {import('express').Response} res
-     */
-    static async registerPost(req, res) {
-
-        const password = req.body.password;
-        const confirm_password = req.body.confirm_password;
-
-        if (confirm_password !== password) {
-            req.flash('messages', ['Password and Confirm Password does not match!']);
-            return res.redirect('back');
-        }
-
-        if (password.length <= 3) {
-            req.flash('messages', ['password must be at less then 4 characters']);
-            return res.redirect('back');
-        }
-
-        const data = {
-            name: req.body.name,
-            email: req.body.email,
-            profession: req.body.profession,
-            password: hash(password),
-        }
-
-        if (req.file?.filename) {
-            data.image = req.file.filename;
-        }
-
-        const tutor = await Tutor.where('email', data.email).first();
-
-        if (tutor) {
-            req.flash('messages', ['The email already exists!'])
-            return res.redirect('back');
-        }
-
-        try {
-
-            const save = await Tutor.create(data);
-
-            if (save) {
-                return res.redirect('/admin/login')
-            }
-
-        } catch (error) {
-            req.flash('messages', [error.message]);
-            return res.redirect('back');
-        }
-
-        req.flash('messages', ['Unable to register tutor please try again later!']);
-        return res.redirect('back');
-
+        return res.render('admin/search_page' , { playlists , videos })
     }
 
 }

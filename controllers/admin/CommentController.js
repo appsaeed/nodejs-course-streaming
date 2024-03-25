@@ -120,22 +120,22 @@ class CommentController extends Controller {
     static async delete(req, res) {
 
         try {
-            const video_id = req.params?.video_id || '';
+            const comment_id = req.params?.comment_id || '';
 
-            const deleted = await Content.where('id', video_id).delete();
+            const deleted = await Comment.where('id', comment_id).delete();
 
             if (deleted) {
                 req.flash('messages', ['Content deleted'])
-                return res.redirect('/admin/videos');
+                return res.redirect('back');
             }
             
         } catch (error) {
             req.flash('messages', [error.message])
-            return res.redirect('/admin/videos');
+            return res.redirect('back');
         }
 
         req.flash('messages', ['Unalbe to delete playlist'])
-        return res.redirect('/admin/playlists');
+        return res.redirect('back');
     }
     /**
      * Create view and logic for index

@@ -1,0 +1,52 @@
+<%- include('../layout/header.ejs',{ title: 'Comments' }) %>
+
+<!-- comment section start -->
+
+<!-- <section class="edit-comment">
+   <h1 class="heading">edti comment</h1>
+   <form action="" method="post">
+      <input type="hidden" name="update_id" value="">
+      <textarea name="update_box" class="box" maxlength="1000" required placeholder="please enter your comment" cols="30" rows="10"></textarea>
+      <div class="flex">
+         <a href="comments.php" class="inline-option-btn">cancel edit</a>
+         <input type="submit" value="update now" name="update_now" class="inline-btn">
+      </div>
+   </form>
+</section> -->
+
+
+<section class="comments">
+   <h1 class="heading">Your comments</h1>
+   <div class="show-comments">
+      <% if (comments && comments.length > 0) { %>
+      <% comments.forEach(comment => { %>
+      <% const content = comment.content; %>
+      <div class="box" style="<%= comment.user_id === user.id ? 'order:-1' : '' %>">
+         <div class="content"><span><%= comment.date %></span>
+            <p> - <%= comment.title %> - </p>
+            <a href="/watch/<%= comment.content_id %>">view content</a></div>
+         <p class="text"><%= comment.comment %></p>
+
+         <% if (comment.user_id === user.id) { %> 
+            <a href="/comments/edit/<%= comment.id  %>" class="inline-option-btn">
+               edit comment
+            </a>
+            <a href="/comments/delete/<%= comment.id  %>" class="inline-delete-btn"
+               onclick="return confirm('delete this comment?');"
+               >
+               delete comment
+            </a>
+         <% } %>
+      </div>
+      <% }) %>
+      <% } else { %>
+         <p class="empty">No comments added yet!</p>
+      <% } %>
+      </div>
+   
+</section>
+
+<!-- comments section ends -->
+
+
+<%- include('../layout/footer.ejs') %>

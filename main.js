@@ -10,8 +10,8 @@ const flash = require('connect-flash');
 const publicRouter = require('./router/public');
 const authRouter = require('./router/auth');
 const adminRouter = require('./router/admin');
-// const Auth = require('./model/Auth');
-
+const apiRouter = require('./router/api');
+const token = require('./middleware/token');
 
 //express middleware start
 const app = express();
@@ -40,6 +40,7 @@ app.use(function(req, res, next) {
 })
 
 //routeing setup
+app.use('/api', token , apiRouter )
 app.use(publicRouter)
 app.use(authRouter)
 app.use('/admin',adminRouter)

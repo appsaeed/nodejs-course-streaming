@@ -14,7 +14,7 @@
             <p class="text">
                 <%= comment.comment  %>
             </p>
-            <a href="" 
+            <a href="/admin/comments/delete/<%= comment.id  %>" 
             onclick="return confirm('delete this comment?');"
             class="inline-delete-btn"
             >

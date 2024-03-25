@@ -42,7 +42,7 @@ class PlaylistController extends Controller {
 
         const playlist = await Playlist.find(playlist_id);
 
-        const videos = await Content.where({ playlist_id, tutor_id }).first();
+        const videos = await Content.where({ playlist_id, tutor_id }).get();
 
         res.render('admin/playlist/view', { playlist, videos });
     }

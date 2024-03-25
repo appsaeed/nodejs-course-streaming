@@ -1,3 +1,4 @@
+const db = require('../app/db');
 const Bookmark = require('../model/Bookmark');
 const Comment = require('../model/Comment');
 const Content = require('../model/Content');
@@ -48,9 +49,9 @@ class PlaylistController extends Controller {
         const tutor_id = video?.tutor_id || '';
         
         const tutor = await Tutor.find(tutor_id);
-        const likes = await Like.where('user_id', video_id).get();
+        const likes = await Like.where('content_id', video_id).get();
         const total_likes = likes.length;
-        const liked = likes.find( (item ) => item.user_id === user_id)
+        const liked = likes.find( (item ) => item.user_id == user_id)
         const all_comments = await Comment.where('content_id', video_id).get();
 
         const comments = await Promise.all(all_comments.map(async function (comment) {
@@ -100,6 +101,27 @@ class PlaylistController extends Controller {
             res.locals.messages = ['Server error: ' + error.message];
             res.redirect('back');
         }
+    }
+
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async searchCourse(req, res){
+        const search = String(req.query?.search || '');
+        const pQuery = await db.query(`SELECT * FROM playlist WHERE title LIKE '%${search}%' AND status = 'active';`);
+        const playlists = pQuery.rows;
+
+        const courses = await Promise.all(playlists.map(async (item)=> {
+            const tutor = await Tutor.find(item.tutor_id);
+            return {
+                ...item,
+                tutor
+            }
+        }))
+        
+        return res.render('search_course', {courses , search })
     }
 
 }

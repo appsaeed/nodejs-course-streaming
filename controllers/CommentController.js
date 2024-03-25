@@ -3,6 +3,48 @@ const Content = require('../model/Content');
 
 class CommentController {
 
+     /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+     static async index(req, res){
+        const user_id = res.locals?.user?.id || '';
+
+        //get bookmark from database
+        const all_comments = await Comment.where('user_id', user_id).get();
+
+        const commentsPromise = all_comments.map(async function(comment) {
+
+            const contents =  await Content.where('id', comment.content_id).get();
+
+            return {
+                ...comment,
+                contents: contents
+            }
+        });
+
+        const comments = await Promise.all(commentsPromise)
+            
+        res.render('comment/index' , { 
+            comments: comments,
+         })
+    }
+
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async edit(req, res) {
+        const comment_id = req.params?.comment_id || '';
+        const comment = await Comment.find(comment_id);
+        if(!comment){
+            req.flash( 'messages', ['Comment not found']);
+            res.redirect('back');
+        }
+        return res.render('comment/edit', { comment })
+    }
     /**
      * Create view and logic for index
      * @param {import('express').Request} req 
@@ -42,6 +84,52 @@ class CommentController {
         } catch (error) {
             return res.send(error);
         }
+    }
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async update(req, res) {
+
+        const comment_id = req.body?.comment_id || "";
+        const comment = req.body?.comment || "";
+
+        if(!comment && !comment_id) {
+            req.flash('messages', ['Comment was not found'])
+            return res.redirect('back');
+        }
+        
+        if((await Comment.where({ id: comment_id }).update({ comment })))
+        req.flash('messages', ['Comment was updated'])
+        return res.redirect('back');
+
+    }
+
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async delete(req, res) {
+
+        const comment_id = req.params?.comment_id || "";
+
+        await Comment.where('id', comment_id).delete();
+        
+
+
+        if(comment_id) {
+            req.flash('messages', ['Comment was not found'])
+            return res.redirect('back');
+        }
+
+        await Comment.where('id', comment_id).delete();
+        
+        req.flash('messages', ['Comment was removed'])
+        
+        return res.redirect('back');
+
     }
 }
 module.exports = CommentController;

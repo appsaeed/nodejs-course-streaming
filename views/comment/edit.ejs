@@ -1,0 +1,21 @@
+<%- include('../layout/header.ejs',{ title: 'Edit Comment' }) %>
+
+<!-- comment section start -->
+
+<section class="edit-comment">
+   <h1 class="heading">edti comment</h1>
+   <form action="/comments/update" method="post">
+      <input type="hidden" name="comment_id" value="<%= comment.id  %>">
+      <textarea name="comment" class="box" maxlength="1000" required placeholder="please enter your comment" cols="30" rows="10"><%= comment.comment  %></textarea>
+      <div class="flex">
+         <a href="/comments" class="inline-option-btn">Back</a>
+         <input type="submit" value="update now" class="inline-btn">
+      </div>
+   </form>
+</section>
+
+
+<!-- comments section ends -->
+
+
+<%- include('../layout/footer.ejs') %>

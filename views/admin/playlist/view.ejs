@@ -41,7 +41,7 @@
    <div class="box-container">
    <% if (videos && videos.length > 0) { %>
    <% videos.forEach(video => { %>
-   <% const statusClass = list.status === 'active' ? 'color:limegreen' : 'color:red' %>
+   <% const statusClass = video.status === 'active' ? 'color:limegreen' : 'color:red' %>
       <div class="box">
          <div class="flex">
             <div><i class="fas fa-dot-circle" style="<%= statusClass  %>"></i><span style="<%= statusClass  %>">
@@ -51,14 +51,22 @@
                <%= video.date  %>
             </span></div>
          </div>
-         <img src="../uploaded_files/<%= video.status  %>" class="thumb" alt="">
+         <img src="/uploaded_files/<%= video.thumb  %>" class="thumb" alt="">
          <h3 class="title"><%= video.status  %></h3>
-         <form action="" method="post" class="flex-btn">
-            <input type="hidden" name="video_id" value="<%= video.id  %>">
-            <a href="update_content.php?get_id=<%= video.id  %>" class="option-btn">update</a>
-            <input type="submit" value="delete" class="delete-btn" onclick="return confirm('delete this video?');" name="delete_video">
-         </form>
-         <a href="view_content.php?get_id=<%= video.status  %>" class="btn">watch video</a>
+         <div  class="flex">
+            <div>
+               <a href="/admin/videos/edit/<%= video.id  %>" class="option-btn">update</a>
+            </div>
+            <div>
+               <a 
+                  href="/admin/videos/delete/<%= video.id  %>" 
+                  class="delete-btn" 
+                  onclick="return confirm('delete this video?');" name="delete_video">
+                  delete
+               </a>
+            </div>
+         </div>
+         <a href="/admin/videos/view/<%= video.id  %>" class="btn">watch video</a>
       </div>
    <% }) %>
    <% } else { %>  

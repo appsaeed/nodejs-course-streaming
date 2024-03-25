@@ -11,6 +11,8 @@ const config = {
     port: process.env.DB_PORT,
 }
 
+const db = (new Pool(config))
+
 // const query =  (new Pool(config)).query('').then();
 module.exports = { client: new Client(config) };
 module.exports = (new Pool(config));

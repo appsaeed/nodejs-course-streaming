@@ -18,6 +18,7 @@ router.get('/profile', admin, AdminController.profile )
 router.get('/profile/edit', admin, AdminController.editProfile)
 router.post('/profile/update', admin, upload.single('image'), AdminController.updateProfile)
 // router.post('/profile/update', upload.single('image'), admin, AdminController.updateProfile)
+router.get('/', admin, AdminController.dashboard )
 router.get('/dashboard', admin, AdminController.dashboard )
 
 router.get('/playlists', admin, PlaylistController.index )
@@ -37,9 +38,11 @@ router.get('/videos/add', admin, VideoController.add )
 const  video = upload.fields([{ name: 'thumb', maxCount: 1 }, { name: 'video', maxCount: 1 }]);
 router.post('/videos/save', admin, video , VideoController.save )
 router.post('/videos/update', admin, video , VideoController.update )
+router.get('/search_page', admin, video , VideoController.search )
 
 
 router.get('/comments', admin, CommentController.index )
+router.get('/comments/delete/:comment_id', admin, CommentController.delete )
 
 router.get('/logout', Auth.logoutTutor)
 

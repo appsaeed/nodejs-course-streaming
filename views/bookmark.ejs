@@ -14,15 +14,15 @@
             <% if (playlist.tutor) { %>
                <div class="box">
                   <div class="tutor">
-                     <img src="uploaded_files/<%= playlist.tutor.image  %>" alt="">
+                     <img src="/uploaded_files/<%= playlist.tutor.image  %>" alt="">
                      <div>
-                        <h3><?= $fetch_tutor['name']; ?></h3>
-                        <span><?= $fetch_course['date']; ?></span>
+                        <h3><%= playlist.tutor.name  %></h3>
+                        <span><%= playlist.date  %></span>
                      </div>
                   </div>
-                  <img src="uploaded_files/<%= playlist.thumb %>" class="thumb" alt="">
+                  <img src="/uploaded_files/<%= playlist.thumb %>" class="thumb" alt="">
                   <h3 class="title"><%= playlist.title  %></h3>
-                  <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+                  <a href="/playlist/<%= playlist.id  %>" class="inline-btn">view playlist</a>
                </div>
             <% } else { %>
                <p class="empty">Tutor not found!</p>
