@@ -28,17 +28,17 @@
          <img src="/uploaded_files/<%= user.image %>" alt="">
             <h3><%= user.name %></h3>
             <span>student</span>
-            <a href="/profile" class="btn">view profile</a>
+            <a href="/profile" class="btn">View profile</a>
             <div class="flex-btn">
                <!-- <a href="/login.php" class="option-btn">login</a>
                <a href="/register.php" class="option-btn">register</a> -->
             </div>
-            <a href="/logout" onclick="return confirm('logout from this website?');" class="delete-btn">logout</a>
+            <a href="/logout" onclick="return confirm('logout from this website?');" class="delete-btn">Logout</a>
          <% } else { %>
-            <h3>please login or register</h3>
+            <h3>Please login</h3>
             <div class="flex-btn">
-              <a href="/login" class="option-btn">login</a>
-              <a href="/register" class="option-btn">register</a>
+              <a href="/login" class="option-btn">Login</a>
+              <a href="/register" class="option-btn">Register</a>
            </div>
          <% } %>
       </div>

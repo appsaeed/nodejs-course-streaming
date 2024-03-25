@@ -2,21 +2,21 @@
    
 <section class="playlist-form">
 
-   <h1 class="heading">update playlist</h1>
+   <h1 class="heading">Update playlist</h1>
    <% if (playlist) { %>
       <form action="/admin/playlists/update" method="post" enctype="multipart/form-data">
          <input type="hidden" name="old_image" value="<%= playlist.thumb %>">
          <input type="hidden" name="playlist_id" value="<%= playlist.id  %>">
-         <p>playlist status <span>*</span></p>
+         <p>Playlist status <span>*</span></p>
          <select name="status" class="box" required>
             <option <%= playlist.status === 'active' ? 'selected' : '';%> value="active">active</option>
             <option <%= playlist.status === 'deactive' ? 'selected' : '';%> value="deactive">deactive</option>
          </select>
-         <p>playlist title <span>*</span></p>
+         <p>Playlist title <span>*</span></p>
          <input type="text" name="title" maxlength="100" required placeholder="enter playlist title" value="<%= playlist.title  %>" class="box">
-         <p>playlist description <span>*</span></p>
+         <p>Playlist description <span>*</span></p>
          <textarea name="description" class="box" required placeholder="write description" maxlength="1000" cols="30" rows="10"><%= playlist.description  %></textarea>
-         <p>playlist thumbnail <span>*</span></p>
+         <p>Playlist thumbnail <span>*</span></p>
          <div class="thumb">
             <span><%= videos?.length  %></span>
             <img src="/uploaded_files/<%= playlist.thumb  %>" alt="<%= playlist.thumb  %>">
@@ -31,7 +31,7 @@
          </div>
       </form>
    <% } else { %>
-      <p class="empty">no playlist added yet!</p>
+      <p class="empty">No playlist added yet!</p>
    <% } %>
 </section>
 

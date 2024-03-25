@@ -4,26 +4,26 @@
 
 <section class="quick-select">
 
-   <h1 class="heading">quick options</h1>
+   <h1 class="heading">Quick options</h1>
 
    <div class="box-container">
 
       <% if (user) { %>
          <div class="box">
-            <h3 class="title">likes and comments</h3>
+            <h3 class="title">Likes and comments</h3>
             <p>total likes : <span><%= total_like %></span></p>
-            <a href="/likes" class="inline-btn">view likes</a>
+            <a href="/likes" class="inline-btn">View likes</a>
             <p>total comments : <span><%= total_comment %></span></p>
-            <a href="/comments" class="inline-btn">view comments</a>
+            <a href="/comments" class="inline-btn">View comments</a>
             <p>saved playlist : <span><%= total_bookmarked %></span></p>
-            <a href="/bookmark" class="inline-btn">view bookmark</a>
+            <a href="/bookmark" class="inline-btn">View bookmark</a>
          </div>
       <% } else { %>
          <div class="box" style="text-align: center;">
-            <h3 class="title">please login or register</h3>
+            <h3 class="title">Please login</h3>
              <div class="flex-btn" style="padding-top: .5rem;">
-               <a href="/login" class="option-btn">login</a>
-               <a href="/register" class="option-btn">register</a>
+               <a href="/login" class="option-btn">Login</a>
+               <a href="/register" class="option-btn">Register</a>
             </div>
          </div>
       <% } %>      
@@ -54,7 +54,7 @@
       </div>
 
       <div class="box tutor">
-         <h3 class="title">become a tutor</h3>
+         <h3 class="title">Become a Tutor</h3>
          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, laudantium.</p>
          <a href="/admin/register" class="inline-btn">get started</a>
       </div>
@@ -68,7 +68,7 @@
 <!-- courses section starts  -->
 
 <section class="courses">
-   <h1 class="heading">latest courses</h1>
+   <h1 class="heading">Latest courses</h1>
    <div class="box-container">
       <% if (playlists?.length > 0) { %>
       <% playlists.forEach(list => { %>
@@ -91,7 +91,7 @@
    </div>
 
    <div class="more-btn">
-      <a href="/courses" class="inline-option-btn">view more</a>
+      <a href="/courses" class="inline-option-btn">View more</a>
    </div>
 
 </section>

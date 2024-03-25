@@ -13,32 +13,32 @@
             <p>your profession </p>
             <select name="profession" class="box">
                <option value="developer" 
-               <%= tutor.profession === 'developer' ? 'selected' : ""  %>>developer</option>
+               <%= tutor.profession === 'developer' ? 'selected' : ""  %>>Developer</option>
                <option value="desginer" 
-               <%= tutor.profession === 'desginer' ? 'selected' : ""  %>>desginer</option>
-               <option value="musician" <%= tutor.profession === 'musician' ? 'selected' : ""  %>>musician</option>
-               <option value="biologist" <%= tutor.profession === 'biologist' ? 'selected' : ""  %>>biologist</option>
-               <option value="teacher" <%= tutor.profession === 'teacher' ? 'selected' : ""  %>>teacher</option>
-               <option value="engineer" <%= tutor.profession === "engineer" ? 'selected' : ""  %>>engineer</option>
-               <option value="lawyer" <%= tutor.profession === 'lawyer' ? 'selected' : ""  %>>lawyer</option>
+               <%= tutor.profession === 'desginer' ? 'selected' : ""  %>>Desginer</option>
+               <option value="musician" <%= tutor.profession === 'musician' ? 'selected' : ""  %>>Musician</option>
+               <option value="biologist" <%= tutor.profession === 'biologist' ? 'selected' : ""  %>>Biologist</option>
+               <option value="teacher" <%= tutor.profession === 'teacher' ? 'selected' : ""  %>>Teacher</option>
+               <option value="engineer" <%= tutor.profession === "engineer" ? 'selected' : ""  %>>Engineer</option>
+               <option value="lawyer" <%= tutor.profession === 'lawyer' ? 'selected' : ""  %>>Lawyer</option>
                <option value="accountant" <%= tutor.profession === 'accountant' ? 'selected' : ""  %>>accountant</option>
-               <option value="doctor" <%= tutor.profession === 'doctor' ? 'selected' : ""  %>>doctor</option>
-               <option value="journalist" <%= tutor.profession === 'journalist' ? 'selected' : ""  %>>journalist</option>
-               <option value="photographer" <%= tutor.profession === 'photographer' ? 'selected' : ""  %>>photographer</option>
+               <option value="doctor" <%= tutor.profession === 'doctor' ? 'selected' : ""  %>>Doctor</option>
+               <option value="journalist" <%= tutor.profession === 'journalist' ? 'selected' : ""  %>>Journalist</option>
+               <option value="photographer" <%= tutor.profession === 'photographer' ? 'selected' : ""  %>>Photographer</option>
             </select>
             <p>your email </p>
             <input type="email" disabled style="cursor: not-allowed;" name="email" value="<%= tutor.email  %>" maxlength="20"  class="box">
          </div>
          <div class="col">
-            <p>old password :</p>
+            <p>Prevous password :</p>
             <input type="password" name="old_password" placeholder="enter your old password" maxlength="20"  class="box">
-            <p>new password :</p>
+            <p>New password :</p>
             <input type="password" name="new_password" placeholder="enter your new password" maxlength="20"  class="box">
-            <p>confirm password :</p>
+            <p>Confirm password :</p>
             <input type="password" name="confirm_password" placeholder="confirm your new password" maxlength="20"  class="box">
          </div>
       </div>
-      <p>update pic :</p>
+      <p>Update pic :</p>
       <input type="file" name="image" accept="image/*"  class="box">
       <input type="submit" value="update now" class="btn">
    </form>

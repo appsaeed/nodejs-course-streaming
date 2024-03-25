@@ -3,23 +3,23 @@
 <section class="form-container" style="min-height: calc(100vh - 19rem);">
 
    <form action="/profile/update" method="post" enctype="multipart/form-data">
-      <h3>update profile</h3>
+      <h3>Update profile</h3>
       <div class="flex">
          <div class="col">
-            <p>your name</p>
+            <p>Your name</p>
             <input type="text" name="name" value="<%= user?.name  %>" class="box">
-            <p>your email</p>
+            <p>Your email</p>
             <input style="cursor: not-allowed;" disabled type="email" name="email" value="<%= user?.email  %>" class="box">
             <p>update pic</p>
             <input type="file" name="image" accept="image/*" class="box">
          </div>
          <div class="col">
                <p>old password</p>
-               <input type="password" name="old_password" placeholder="enter your old password" maxlength="50" class="box">
+               <input type="password" name="old_password" placeholder="Your old password" maxlength="50" class="box">
                <p>new password</p>
-               <input type="password" name="new_password" placeholder="enter your new password" maxlength="50" class="box">
+               <input type="password" name="new_password" placeholder="Your new password" maxlength="50" class="box">
                <p>confirm password</p>
-               <input type="password" name="confirm_password" placeholder="confirm your new password" class="box">
+               <input type="password" name="confirm_password" placeholder="confirm password" class="box">
          </div>
       </div>
       <input type="submit" value="update profile" class="btn">

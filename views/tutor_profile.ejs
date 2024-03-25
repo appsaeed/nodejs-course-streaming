@@ -4,7 +4,7 @@
 
 <section class="tutor-profile">
 
-   <h1 class="heading">profile details</h1>
+   <h1 class="heading">Tutor profile details</h1>
 
    <div class="details">
       <div class="tutor">
@@ -13,10 +13,10 @@
          <span><%= tutor.profession  %></span>
       </div>
       <div class="flex">
-         <p>total playlists : <span><%= playlists?.length  %></span></p>
-         <p>total videos : <span><%= total_video  %></span></p>
-         <p>total likes : <span><%= total_like  %></span></p>
-         <p>total comments : <span><%= total_comment  %></span></p>
+         <p>Total playlists : <span><%= playlists?.length  %></span></p>
+         <p>Total videos : <span><%= total_video  %></span></p>
+         <p>Total likes : <span><%= total_like  %></span></p>
+         <p>Total comments : <span><%= total_comment  %></span></p>
       </div>
    </div>
 
@@ -26,7 +26,7 @@
 
 <section class="courses">
 
-   <h1 class="heading">latest courese</h1>
+   <h1 class="heading">Latest courese</h1>
 
    <div class="box-container">
       <% if (playlists?.length > 0) { %>
@@ -45,7 +45,7 @@
          </div>
       <% }) %>
       <% } else { %>
-      <p class="empty">no courses added yet!</p>
+      <p class="empty">No courses added yet!</p>
       <% } %>
       
    </div>

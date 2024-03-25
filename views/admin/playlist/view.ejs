@@ -2,7 +2,7 @@
    
 <section class="playlist-details">
 
-   <h1 class="heading">playlist details</h1>
+   <h1 class="heading">Playlist details</h1>
 
    <% if (playlist) { %>
     
@@ -29,14 +29,14 @@
       </div>
    </div>
    <% } else{ %>
-      <p class="empty">no playlist found!</p>
+      <p class="empty">No playlist found!</p>
    <% } %>
 
 </section>
 
 <section class="contents">
 
-   <h1 class="heading">playlist videos</h1>
+   <h1 class="heading">Playlist videos</h1>
 
    <div class="box-container">
    <% if (videos && videos.length > 0) { %>
@@ -66,12 +66,12 @@
                </a>
             </div>
          </div>
-         <a href="/admin/videos/view/<%= video.id  %>" class="btn">watch video</a>
+         <a href="/admin/videos/view/<%= video.id  %>" class="btn">Watch video</a>
       </div>
    <% }) %>
    <% } else { %>  
       <p class="empty">No videos added yet! 
-         <a href="/admin/videos/add" class="btn" style="margin-top: 1.5rem;">add videos</a>
+         <a href="/admin/videos/add" class="btn" style="margin-top: 1.5rem;">Add videos</a>
    </p>
    <% } %>
       

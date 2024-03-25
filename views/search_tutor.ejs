@@ -2,7 +2,7 @@
 
 <section class="teachers">
 
-   <h1 class="heading">expert tutors</h1>
+   <h1 class="heading">Expert Tutors</h1>
 
    <form action="/search_tutor" method="get" class="search-tutor">
       <% if (search) { %>
@@ -25,15 +25,15 @@
                   <span><%= item.profession  %></span>
                </div>
             </div>
-            <p>playlists : <span><%= item.total_playlists  %></span></p>
-            <p>total videos : <span><%= item.total_videos  %></span></p>
-            <p>total likes : <span><%= item.total_likes  %></span></p>
-            <p>total comments : <span><%= item.total_comments  %></span></p>
+            <p>Playlist : <span><%= item.total_playlists  %></span></p>
+            <p>Total videos : <span><%= item.total_videos  %></span></p>
+            <p>Total likes : <span><%= item.total_likes  %></span></p>
+            <p>Total comments : <span><%= item.total_comments  %></span></p>
             <a href="/tutor-profile/<%= item.id  %>" class="inline-btn">view profile </a>
          </div>
       <% }) %>
       <% } else { %>
-      <p class="empty">no results found!</p>
+      <p class="empty">No results found!</p>
       <% } %>
    </div>
 

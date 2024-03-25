@@ -2,7 +2,7 @@
 
 <section class="video-form">
 
-   <h1 class="heading">update content</h1>
+   <h1 class="heading">Update Content</h1>
    <% if (video) { %>
       <form action="/admin/videos/update" method="post" enctype="multipart/form-data">
          <input type="hidden" name="video_id" value="<%= video.id  %>">
@@ -39,7 +39,7 @@
          </div>
       </form>
    <% } else { %>
-      '<p class="empty">video not found! <a href="/admin/videos/add" class="btn" style="margin-top: 1.5rem;">add videos</a></p>
+      '<p class="empty">Video not found! <a href="/admin/videos/add" class="btn" style="margin-top: 1.5rem;">add videos</a></p>
    <% } %>
 
 </section>
