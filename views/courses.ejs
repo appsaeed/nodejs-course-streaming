@@ -18,9 +18,9 @@
                      <span><%= list.date %></span>
                   </div>
                </div>
-               <img src="uploaded_files/<%= list.thumb %>" class="thumb" alt="">
+               <img src="/uploaded_files/<%= list.thumb %>" class="thumb" alt="">
                <h3 class="title"><%= list.title  %></h3>
-               <a href="playlist.php?get_id=<%= list.id %>" class="inline-btn">view playlist</a>
+               <a href="/playlist/<%= list.id %>" class="inline-btn">view playlist</a>
             </div>
          <% }) %>
          <% } else { %>

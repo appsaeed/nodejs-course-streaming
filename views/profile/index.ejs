@@ -1,0 +1,59 @@
+<%- include('../layout/header.ejs',{ title: 'Profile' }) %>
+
+<section class="profile">
+
+   <h1 class="heading">profile details</h1>
+
+   <div class="details">
+
+      <div class="user">
+         <img src="uploaded_files/<%= user.image %>" alt="">
+         <h3><%= user.name  %></h3>
+         <p>student</p>
+         <a href="/profile/edit" class="inline-btn">update profile</a>
+      </div>
+
+      <div class="box-container">
+
+         <div class="box">
+            <div class="flex">
+               <i class="fas fa-bookmark"></i>
+               <div>
+                  <h3><%= total_bookmarked  %></h3>
+                  <span>saved playlists</span>
+               </div>
+            </div>
+            <a href="#" class="inline-btn">view playlists</a>
+         </div>
+
+         <div class="box">
+            <div class="flex">
+               <i class="fas fa-heart"></i>
+               <div>
+                  <h3><%= total_like %></h3>
+                  <span>liked tutorials</span>
+               </div>
+            </div>
+            <a href="#" class="inline-btn">view liked</a>
+         </div>
+
+         <div class="box">
+            <div class="flex">
+               <i class="fas fa-comment"></i>
+               <div>
+                  <h3><%= total_comment %></h3>
+                  <span>video comments</span>
+               </div>
+            </div>
+            <a href="#" class="inline-btn">view comments</a>
+         </div>
+
+      </div>
+
+   </div>
+
+</section>
+
+<!-- profile section ends -->
+
+<%- include('../layout/footer.ejs') %>

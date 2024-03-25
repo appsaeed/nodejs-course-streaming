@@ -1,0 +1,74 @@
+<%- include('../layout/admin_header.ejs', { title : 'View Playlist' }) %>
+   
+<section class="playlist-details">
+
+   <h1 class="heading">playlist details</h1>
+
+   <% if (playlist) { %>
+    
+   
+   <div class="row">
+      <div class="thumb">
+         <span><%= videos?.length %> </span>
+         <img src="/uploaded_files/<%= playlist?.thumb  %>" alt="">
+      </div>
+      <div class="details">
+         <h3 class="title"><%= playlist.title  %></h3>
+         <div class="date"><i class="fas fa-calendar"></i><span>
+            <%= playlist.date  %>
+         </span></div>
+         <div class="description">
+            <%= playlist.description  %>
+         </div>
+         <div class="flex-btn">
+            <a href="/admin/playlists/edit/<%= playlist.id  %>" class="option-btn">update playlist</a>
+            <a href="/admin/playlists/delete/<%= playlist.id  %>" class="delete-btn" onclick="return confirm('delete this playlist?');" name="delete">
+               delete playlist
+            </a>
+         </div>
+      </div>
+   </div>
+   <% } else{ %>
+      <p class="empty">no playlist found!</p>
+   <% } %>
+
+</section>
+
+<section class="contents">
+
+   <h1 class="heading">playlist videos</h1>
+
+   <div class="box-container">
+   <% if (videos && videos.length > 0) { %>
+   <% videos.forEach(video => { %>
+   <% const statusClass = list.status === 'active' ? 'color:limegreen' : 'color:red' %>
+      <div class="box">
+         <div class="flex">
+            <div><i class="fas fa-dot-circle" style="<%= statusClass  %>"></i><span style="<%= statusClass  %>">
+               <%= video.status  %>
+            </span></div>
+            <div><i class="fas fa-calendar"></i><span>
+               <%= video.date  %>
+            </span></div>
+         </div>
+         <img src="../uploaded_files/<%= video.status  %>" class="thumb" alt="">
+         <h3 class="title"><%= video.status  %></h3>
+         <form action="" method="post" class="flex-btn">
+            <input type="hidden" name="video_id" value="<%= video.id  %>">
+            <a href="update_content.php?get_id=<%= video.id  %>" class="option-btn">update</a>
+            <input type="submit" value="delete" class="delete-btn" onclick="return confirm('delete this video?');" name="delete_video">
+         </form>
+         <a href="view_content.php?get_id=<%= video.status  %>" class="btn">watch video</a>
+      </div>
+   <% }) %>
+   <% } else { %>  
+      <p class="empty">No videos added yet! 
+         <a href="/admin/videos/add" class="btn" style="margin-top: 1.5rem;">add videos</a>
+   </p>
+   <% } %>
+      
+   </div>
+
+</section>
+
+<%- include('../layout/admin_footer.ejs') %>

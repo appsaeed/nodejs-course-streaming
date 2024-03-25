@@ -1,11 +1,12 @@
 const Bookmark = require('../model/Bookmark');
 const Comment = require('../model/Comment');
+const Content = require('../model/Content');
 const Like = require('../model/Like');
 const Playlist = require('../model/Playlist');
 const Tutor = require('../model/Tutor');
-const User = require('../model/User');
+const Controller = require('./Controller');
 
-class HomeController {
+class HomeController extends Controller {
 
     /**
      * Create view and logic for index
@@ -14,37 +15,25 @@ class HomeController {
      */
     static async index(req, res){
         
-        const user_id = req.cookies['user_id'] || '667lMc6NeEDpJXd4ks7d';
-
-        //get user from postgres database
-        const user = await User.where('id', user_id).first();
-        const total_like = await Like.where('user_id',user_id).count();
-        const total_comment = await Comment.where('user_id',user_id).count();
-        const total_bookmarked = await Bookmark.where('user_id',user_id).count()
-        // const like = await Like.where('user_id', user_id).count();
-        const getPlaylist = await Playlist.where('status', 'active')
+        const get_playlist = await Playlist.where('status', 'active')
                 .orderBy('date')
                 .limit(6)
                 .get();
 
-        
-        const playlistPromise = getPlaylist.map(async function(row){
-            const tutor = await Tutor.where('id', row.tutor_id).first();
+        const playlists = await Promise.all(get_playlist.map(async (list)=>{
+            const tutor = await Tutor.find(list.tutor_id)
             return {
-                ...row,
-                tutor: tutor,
+                ...list,
+                tutor
             }
-        })
+        }))
+        
+        const user_id = res.locals?.user_id || '';
+        const total_like = await Like.where('user_id', user_id).count();
+        const total_comment = await Comment.where('user_id', user_id).count();
+        const total_bookmarked = await Bookmark.where('user_id', user_id).count();
 
-        const playlist =  await Promise.all(playlistPromise);
-            
-        res.render('home' , { 
-            user: user,
-            playlist: playlist,
-            total_like: total_like,
-            total_comment: total_comment,
-            total_bookmarked: total_bookmarked
-         })
+        res.render('home' , { playlists , total_like, total_comment, total_bookmarked })
     }
     /**
      * Create view and logic for index
@@ -52,14 +41,7 @@ class HomeController {
      * @param {import('express').Response} res
      */
     static async about(req, res){
-        
-        const user_id = req.cookies['user_id'] || '667lMc6NeEDpJXd4ks7d';
 
-        //get user from postgres database
-        const user = await User.where('id', user_id).first();
-        const total_like = await Like.where('user_id',user_id).count();
-        const total_comment = await Comment.where('user_id',user_id).count();
-        const total_bookmarked = await Bookmark.where('user_id',user_id).count()
         // const like = await Like.where('user_id', user_id).count();
         const getPlaylist = await Playlist.where('status', 'active')
                 .orderBy('date')
@@ -78,27 +60,16 @@ class HomeController {
         const playlist =  await Promise.all(playlistPromise);
             
         res.render('about' , { 
-            user: user,
-            playlist: playlist,
-            total_like: total_like,
-            total_comment: total_comment,
-            total_bookmarked: total_bookmarked
+            playlist: playlist
          })
     }
+
     /**
      * Create view and logic for index
      * @param {import('express').Request} req 
      * @param {import('express').Response} res
      */
     static async courses(req, res){
-        
-        const user_id = req.cookies['user_id'] || '667lMc6NeEDpJXd4ks7d';
-
-        //get user from postgres database
-        const user = await User.where('id', user_id).first();
-        const total_like = await Like.where('user_id',user_id).count();
-        const total_comment = await Comment.where('user_id',user_id).count();
-        const total_bookmarked = await Bookmark.where('user_id',user_id).count()
         // const like = await Like.where('user_id', user_id).count();
         const getPlaylist = await Playlist.where('status', 'active')
                 .orderBy('date')
@@ -116,28 +87,15 @@ class HomeController {
 
         const playlist =  await Promise.all(playlistPromise);
             
-        res.render('courses' , { 
-            user: user,
-            playlist: playlist,
-            total_like: total_like,
-            total_comment: total_comment,
-            total_bookmarked: total_bookmarked
-         })
+        res.render('courses' , {  playlist })
     }
+
     /**
      * Create view and logic for index
      * @param {import('express').Request} req 
      * @param {import('express').Response} res
      */
     static async contact(req, res){
-        
-        const user_id = req.cookies['user_id'] || '667lMc6NeEDpJXd4ks7d';
-
-        //get user from postgres database
-        const user = await User.where('id', user_id).first();
-        const total_like = await Like.where('user_id',user_id).count();
-        const total_comment = await Comment.where('user_id',user_id).count();
-        const total_bookmarked = await Bookmark.where('user_id',user_id).count()
         // const like = await Like.where('user_id', user_id).count();
         const getPlaylist = await Playlist.where('status', 'active')
                 .orderBy('date')
@@ -156,11 +114,73 @@ class HomeController {
         const playlist =  await Promise.all(playlistPromise);
             
         res.render('contact' , { 
-            user: user,
-            playlist: playlist,
-            total_like: total_like,
-            total_comment: total_comment,
-            total_bookmarked: total_bookmarked
+            playlist: playlist
+         })
+    }
+
+
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async teachers(req, res){
+
+        const tutors = await Tutor.get();
+
+        const teachers = await Promise.all(tutors.map(async (tutor) =>{
+            const total_playlists = await Playlist.where('tutor_id', tutor.id).count();
+            const total_videos    = await Content.where('tutor_id', tutor.id).count();
+            const total_comments = await Comment.where('tutor_id', tutor.id).count();
+            const total_likes = await Like.where('tutor_id', tutor.id).count();
+            return {
+                ...tutor,
+                total_playlists,
+                total_videos,
+                total_comments,
+                total_likes,
+            }
+        }))            
+        res.render('teachers' , { teachers })
+    }
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async bookmark(req, res){
+        const user_id = res.locals?.user.id || '';
+        //get bookmark from database
+        const allBookmark = await Bookmark.where('user_id', user_id).get();
+
+        const bookmarksPromise = allBookmark.map(async function(row) {
+
+            const allPlaylist =  await Playlist.where({ 
+                'id': row.playlist_id , status: 'active'
+            }).orderBy('date').get();
+
+            const playlistPromise = await allPlaylist.map(async function(item){
+
+                const tutor = Tutor.where('id', item.tutor_id).first();
+
+                return {
+                    ...item,
+                    tutor: tutor,
+                }
+            })
+
+            const playlists = await Promise.all(playlistPromise);
+
+            return {
+                ...row,
+                playlists: playlists
+            }
+        });
+
+        const bookmarks = await Promise.all(bookmarksPromise)
+            
+        res.render('bookmark' , { 
+            bookmarks: bookmarks,
          })
     }
     /**
@@ -168,38 +188,65 @@ class HomeController {
      * @param {import('express').Request} req 
      * @param {import('express').Response} res
      */
-    static async teachers(req, res){
-        
-        const user_id = req.cookies['user_id'] || '667lMc6NeEDpJXd4ks7d';
+    static async like(req, res){
+        const user_id = res.locals?.user.id || '';
+        //get bookmark from database
+        const all_likes = await Like.where('user_id', user_id).get();
 
-        //get user from postgres database
-        const user = await User.where('id', user_id).first();
-        const total_like = await Like.where('user_id',user_id).count();
-        const total_comment = await Comment.where('user_id',user_id).count();
-        const total_bookmarked = await Bookmark.where('user_id',user_id).count()
-        // const like = await Like.where('user_id', user_id).count();
-        const getPlaylist = await Playlist.where('status', 'active')
-                .orderBy('date')
-                .limit(6)
-                .get();
+        const likesPromise = all_likes.map(async function(like) {
 
-        
-        const playlistPromise = getPlaylist.map(async function(row){
-            const tutor = await Tutor.where('id', row.tutor_id).first();
+            const all_content =  await Content.where('id', like.content_id).orderBy('date').get();
+
+            const contentPromise = await all_content.map(async function(item){
+
+                const tutor = Tutor.where('id', item.tutor_id).first();
+
+                return {
+                    ...item,
+                    tutor: tutor,
+                }
+            })
+
+            const contents = await Promise.all(contentPromise);
+
             return {
-                ...row,
-                tutor: tutor,
+                ...like,
+                contents: contents
             }
-        })
+        });
 
-        const playlist =  await Promise.all(playlistPromise);
+        const likes = await Promise.all(likesPromise)
             
-        res.render('teachers' , { 
-            user: user,
-            playlist: playlist,
-            total_like: total_like,
-            total_comment: total_comment,
-            total_bookmarked: total_bookmarked
+        res.render('likes' , { 
+            likes: likes,
+         })
+    }
+
+    /**
+     * Create view and logic for index
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res
+     */
+    static async comment(req, res){
+        const user_id = res.locals?.user.id || '';
+
+        //get bookmark from database
+        const all_comments = await Comment.where('user_id', user_id).get();
+
+        const commentsPromise = all_comments.map(async function(comment) {
+
+            const contents =  await Content.where('id', comment.content_id).get();
+
+            return {
+                ...comment,
+                contents: contents
+            }
+        });
+
+        const comments = await Promise.all(commentsPromise)
+            
+        res.render('comments' , { 
+            comments: comments,
          })
     }
 }

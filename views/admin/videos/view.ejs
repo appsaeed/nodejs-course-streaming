@@ -1,0 +1,63 @@
+<%- include('../layout/admin_header.ejs', { title: 'View Content'}) %>
+
+<section class="view-content">
+   <% if (video) { %>
+      <div class="container">
+         <video src="/uploaded_files/<%= video.video %>" autoplay controls poster="/uploaded_files/<%= video.thumb %>" class="video"></video>
+         <div class="date"><i class="fas fa-calendar"></i><span><?= $fetch_content['date']; ?></span></div>
+         <h3 class="title"><%= video.thumb %></h3>
+         <div class="flex">
+            <div><i class="fas fa-heart"></i><span><?= $total_likes; ?></span></div>
+            <div><i class="fas fa-comment"></i><span><%= comments?.length %></span></div>
+         </div>
+         <div class="description"><%= video.description %></div>
+         <div>
+            <div class="flex-btn">
+               <a href="/admin/videos/edit/<%= video.id %>" class="option-btn">update</a>
+               <a href="/admin/videos/delete/<%= video.id  %>" type="submit" class="delete-btn" onclick="return confirm('delete this video?');" >
+                  delete 
+               </a>
+            </div>
+         </div>
+      </div>
+   <% } else { %>
+   <p class="empty">
+      no contents added yet! <a href="add_content.php" class="btn" style="margin-top: 1.5rem;">add videos</a>
+   </p>
+   <% } %>
+   
+
+</section>
+
+<section class="comments">
+
+   <h1 class="heading">user comments</h1>
+
+   
+   <div class="show-comments">
+      <% if (comments?.length > 0) { %>
+      <% comments.forEach(comment => { %>
+       
+      <% }) %>
+         <div class="box">
+            <div class="user">
+               <img src="/uploaded_files/<%= comment.user?.image  %>" alt="">
+               <div>
+                  <h3><%= comment.user?.name  %></h3>
+                  <span><%= comment.date  %></span>
+               </div>
+            </div>
+            <p class="text"><%= comment.comment  %></p>
+            <form action="" method="post" class="flex-btn">
+               <input type="hidden" name="comment_id" value="<%= comment.id %>">
+               <button type="submit" name="delete_comment" class="inline-delete-btn" onclick="return confirm('delete this comment?');">delete comment</button>
+            </form>
+         </div>
+      <% } else { %>
+      <p class="empty">no comments added yet!</p>
+      <% } %>
+      </div>
+   
+</section>
+
+<%- include('../layout/admin_footer.ejs') %>

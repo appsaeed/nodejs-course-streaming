@@ -1,0 +1,75 @@
+<%- include('../layout/admin_header.ejs', { title : 'Playlist' }) %>
+
+<section class="playlists">
+
+   <h1 class="heading">added playlists</h1>
+
+   <div class="box-container">
+   
+      <div class="box" style="text-align: center;">
+         <h3 class="title" style="margin-bottom: .5rem;">create new playlist</h3>
+         <a href="/admin/playlists/add" class="btn">add playlist</a>
+      </div>
+      
+      <% if (playlists?.length > 0) { %>
+      <% playlists.forEach(list => { %>
+         <% const statusClass = list.status === 'active' ? 'color:limegreen' : 'color:red' %>
+         <div class="box">
+            <div class="flex">
+               <div>
+                  <i class="fas fa-circle-dot" style="<%= statusClass %>"></i>
+                  <span style="<%= statusClass %>">
+                     <%= list.status %>
+                  </span></div>
+               <div>
+                  <i class="fas fa-calendar"></i>
+                  <span><%= list.date  %></span>
+               </div>
+            </div>
+            <div class="thumb">
+               <span>videos: <%= list.total_videos  %> </span>
+               <img src="/uploaded_files/<%= list.thumb  %>" alt="">
+            </div>
+            <h3 class="title"><%= list.title  %></h3>
+            <p class="description"><%= list.description  %></p>
+            <div class="flex-btn">
+               <a href="/admin/playlists/edit/<%= list.id  %>" class="option-btn">update</a>
+               <a 
+                  href="/admin/playlists/delete/<%= list.id  %>" 
+                  class="delete-btn" 
+                  onclick="return confirm('delete this playlist?');">
+                  delete 
+               </a>
+            </div>
+            <a href="/admin/playlists/view/<%= list.id  %>" class="btn">view playlist</a>
+         </div>
+      <% }) %>
+      <% } else { %>
+      <p class="empty">No playlist added yet!</p>
+      <% } %>
+
+
+   </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+   document.querySelectorAll('.playlists .box-container .box .description').forEach(content => {
+      if(content.innerHTML.length > 100) content.innerHTML = content.innerHTML.slice(0, 100);
+   });
+</script>
+
+<%- include('../layout/admin_footer.ejs') %>

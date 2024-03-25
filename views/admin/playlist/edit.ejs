@@ -1,0 +1,39 @@
+<%- include('../layout/admin_header.ejs', { title : 'Update Playlist' }) %>
+   
+<section class="playlist-form">
+
+   <h1 class="heading">update playlist</h1>
+   <% if (playlist) { %>
+      <form action="/admin/playlists/update" method="post" enctype="multipart/form-data">
+         <input type="hidden" name="old_image" value="<%= playlist.thumb %>">
+         <input type="hidden" name="playlist_id" value="<%= playlist.id  %>">
+         <p>playlist status <span>*</span></p>
+         <select name="status" class="box" required>
+            <option <%= playlist.status === 'active' ? 'selected' : '';%> value="active">active</option>
+            <option <%= playlist.status === 'deactive' ? 'selected' : '';%> value="deactive">deactive</option>
+         </select>
+         <p>playlist title <span>*</span></p>
+         <input type="text" name="title" maxlength="100" required placeholder="enter playlist title" value="<%= playlist.title  %>" class="box">
+         <p>playlist description <span>*</span></p>
+         <textarea name="description" class="box" required placeholder="write description" maxlength="1000" cols="30" rows="10"><%= playlist.description  %></textarea>
+         <p>playlist thumbnail <span>*</span></p>
+         <div class="thumb">
+            <span><%= videos?.length  %></span>
+            <img src="/uploaded_files/<%= playlist.thumb  %>" alt="<%= playlist.thumb  %>">
+         </div>
+         <input type="file" name="image" accept="image/*" class="box">
+         <input type="submit" value="update playlist" class="btn">
+         <div class="flex-btn">
+            <a href="/admin/playlists/delete/<%= playlist.id  %>" class="delete-btn" onclick="return confirm('delete this playlist?');">
+               delete playlist
+            </a>
+            <a href="/admin/playlists/view/<%= playlist.id  %>" class="option-btn">view playlist</a>
+         </div>
+      </form>
+   <% } else { %>
+      <p class="empty">no playlist added yet!</p>
+   <% } %>
+</section>
+
+
+<%- include('../layout/admin_footer.ejs') %>

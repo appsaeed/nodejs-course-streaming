@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title><%= title %></title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="/css/admin_style.css">
+
+</head>
+<body>
+
+<% messages.forEach(message => { %>
+   <div class="message">
+      <span><%= message %></span>
+      <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+   </div>
+<% }) %>
+
+<header class="header">
+
+   <section class="flex">
+
+      <a href="/admin/dashboard" class="logo">Admin.</a>
+
+      <form action="/admin/search_page" method="post" class="search-form">
+         <input type="text" name="search" placeholder="search here..." required maxlength="100">
+         <button type="submit" class="fas fa-search" name="search_btn"></button>
+      </form>
+
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+      </div>
+
+      <div class="profile">
+         <% if (tutor) { %>
+            <img src="/uploaded_files/<%= tutor.image %>; ?>" alt="">
+            <h3><%= tutor.name %></h3>
+            <span><%= tutor.profession %></span>
+            <a href="/admin/profile" class="btn">view profile</a>
+            <a href="/admin/logout" onclick="return confirm('logout from this website?');" class="delete-btn">logout</a>
+         <% } else { %>
+         <h3>please login or register</h3>
+          <div class="flex-btn">
+            <a href="/admin/login" class="option-btn">login</a>
+            <a href="/admin/register" class="option-btn">register</a>
+         </div>
+         <% } %>
+      </div>
+
+   </section>
+
+</header>
+
+<!-- header section ends -->
+
+<!-- side bar section starts  -->
+
+<div class="side-bar">
+
+   <div class="close-side-bar">
+      <i class="fas fa-times"></i>
+   </div>
+
+   <div class="profile">
+         <% if (tutor) { %>
+          
+            <img src="/uploaded_files/<%= tutor.image %> ?>" alt="">
+            <h3><%= tutor.name %></h3>
+            <span><%= tutor.profession %></span>
+            <a href="/admin/profile" class="btn">view profile</a>
+         <% } else {  %>
+         <h3>please login or register</h3>
+          <div class="flex-btn">
+            <a href="/admin/login" class="option-btn">login</a>
+            <a href="/admin/register" class="option-btn">register</a>
+         </div>
+         <% } %>
+      </div>
+
+   <nav class="navbar">
+      <a href="/admin/dashboard"><i class="fas fa-home"></i><span>home</span></a>
+      <a href="/admin/playlists"><i class="fa-solid fa-bars-staggered"></i><span>playlists</span></a>
+      <a href="/admin/videos"><i class="fas fa-graduation-cap"></i><span>contents</span></a>
+      <a href="/admin/comments"><i class="fas fa-comment"></i><span>comments</span></a>
+      <a href="/admin/logout" onclick="return confirm('logout from this website?');"><i class="fas fa-right-from-bracket"></i><span>logout</span></a>
+   </nav>
+
+</div>
+<!-- side bar section ends -->

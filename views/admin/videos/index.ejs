@@ -1,0 +1,46 @@
+<%- include('../layout/admin_header.ejs', { title : 'Videos'}) %>
+   
+<section class="contents">
+
+   <h1 class="heading">your contents</h1>
+
+   <div class="box-container">
+
+   <div class="box" style="text-align: center;">
+      <h3 class="title" style="margin-bottom: .5rem;">create new content</h3>
+      <a href="/admin/videos/add" class="btn">add content</a>
+   </div>
+   <% if (videos?.length > 0) { %>
+   <% videos.forEach(video => { %>
+   <% const statusClass = video.status === 'active' ? 'color:limegreen' : 'color:red' %>
+      <div class="box">
+         <div class="flex">
+            <div><i class="fas fa-dot-circle" style="<%=statusClass%>"></i><span style="<%=statusClass%>"><%= video.status  %></span></div>
+            <div><i class="fas fa-calendar"></i><span><%= video.date  %></span></div>
+         </div>
+         <img src="/uploaded_files/<%= video.thumb  %>" class="thumb" alt="">
+         <h3 class="title"><%= video.status  %></h3>
+         <div  class="flex">
+            <div>
+               <a href="/admin/videos/edit/<%= video.id  %>" class="option-btn">update</a>
+            </div>
+            <div>
+               <a 
+                  href="/admin/videos/delete/<%= video.id  %>" 
+                  class="delete-btn" 
+                  onclick="return confirm('delete this video?');" name="delete_video">
+                  delete
+               </a>
+            </div>
+         </div>
+         <a href="/admin/videos/view/<%= video.id  %>" class="btn">view content</a>
+      </div>
+   <% }) %>
+   <% } else{ %>
+   <p class="empty">no contents added yet!</p>
+   <% } %>
+   </div>
+
+</section>
+
+<%- include('../layout/admin_footer.ejs') %>

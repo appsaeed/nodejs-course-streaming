@@ -1,0 +1,47 @@
+<%- include('../layout/admin_header.ejs', { title: 'Update content' }) %>
+
+<section class="video-form">
+
+   <h1 class="heading">update content</h1>
+   <% if (video) { %>
+      <form action="/admin/videos/update" method="post" enctype="multipart/form-data">
+         <input type="hidden" name="video_id" value="<%= video.id  %>">
+         <p>update status <span>*</span></p>
+         <select name="status" class="box" required>
+            <option value="active" <% video.status === 'active' ? 'selected' : '' %>>active</option>
+            <option value="deactive" <% video.status === 'deactive' ? 'selected' : '' %>>deactive</option>
+         </select>
+         <p>update title <span>*</span></p>
+         <input type="text" name="title" maxlength="100" required placeholder="enter video title" class="box" value="<%= video.title %>">
+         <p>update description <span>*</span></p>
+         <textarea name="description" class="box" required placeholder="write description" maxlength="1000" cols="30" rows="10">
+            <%= video.description %>
+         </textarea>
+         <p>update playlist</p>
+         <select name="playlist_id" class="box">
+            <option value="" selected>--select playlist</option>
+            <% playlists.forEach(playlist => { %>
+               <option value="<%= playlist.id %>" selected>
+                  <%= playlist.title  %>
+               </option>
+            <% }) %>
+         </select>
+         <img src="/uploaded_files/<%= video.thumb  %>" alt="">
+         <p>update thumbnail</p>
+         <input type="file" name="thumb" accept="image/*" class="box">
+         <video src="/uploaded_files/<%= video.video  %>" controls></video>
+         <p>update video</p>
+         <input type="file" name="video" accept="video/*" class="box">
+         <input type="submit" value="update content" name="update" class="btn">
+         <div class="flex-btn">
+            <a href="/admin/videos/view/<%= video.id  %>" class="option-btn">view content</a>
+            <a href="/admin/videos/delete/<%= video.id  %>" class="delete-btn"> delete </a>
+         </div>
+      </form>
+   <% } else { %>
+      '<p class="empty">video not found! <a href="/admin/videos/add" class="btn" style="margin-top: 1.5rem;">add videos</a></p>
+   <% } %>
+
+</section>
+
+<%- include('../layout/admin_footer.ejs') %>

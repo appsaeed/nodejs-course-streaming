@@ -1,9 +1,9 @@
-<% if (message) { %>
+<% messages.forEach(message => { %>
    <div class="message">
       <span><%= message %></span>
       <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
    </div>
-<% } %>
+<% }) %>
 
 <header class="header">
 
@@ -30,15 +30,15 @@
             <span>student</span>
             <a href="/profile" class="btn">view profile</a>
             <div class="flex-btn">
-               <a href="/login.php" class="option-btn">login</a>
-               <a href="/register.php" class="option-btn">register</a>
+               <!-- <a href="/login.php" class="option-btn">login</a>
+               <a href="/register.php" class="option-btn">register</a> -->
             </div>
-            <a href="components/user_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn">logout</a>
+            <a href="/logout" onclick="return confirm('logout from this website?');" class="delete-btn">logout</a>
          <% } else { %>
             <h3>please login or register</h3>
             <div class="flex-btn">
-              <a href="/login.php" class="option-btn">login</a>
-              <a href="/register.php" class="option-btn">register</a>
+              <a href="/login" class="option-btn">login</a>
+              <a href="/register" class="option-btn">register</a>
            </div>
          <% } %>
       </div>
@@ -59,15 +59,15 @@
 
    <div class="profile">
          <% if (user) { %>
-            <img src="uploaded_files/<%= user['image']; %>" alt="">
+            <img src="/uploaded_files/<%= user['image']; %>" alt="">
             <h3><?= $fetch_profile['name']; ?></h3>
             <span>student</span>
             <a href="/profile" class="btn">view profile</a>
          <% } else { %>
             <h3>please login or register</h3>
              <div class="flex-btn" style="padding-top: .5rem;">
-               <a href="/login.php" class="option-btn">login</a>
-               <a href="/register.php" class="option-btn">register</a>
+               <a href="/login" class="option-btn">login</a>
+               <a href="/register" class="option-btn">register</a>
             </div>
          <% } %>
       </div>
