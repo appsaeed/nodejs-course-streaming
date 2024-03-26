@@ -62,7 +62,7 @@
       <% if (comments && comments.length > 0) { %>
       <% comments.forEach(comment => { %>
 
-         <div class="box" style=<%= comment.id === user.id ? 'order:-1' : '' %>>
+         <div class="box <%= comment.id === user.id ? 'order:-1' : '' %>" >
             <div class="user">
                <img src="/uploaded_files/<%= comment.user?.image %>" alt="">
                <div>

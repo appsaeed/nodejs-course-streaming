@@ -10,50 +10,35 @@ const flash = require('connect-flash');
 const publicRouter = require('./router/public');
 const authRouter = require('./router/auth');
 const adminRouter = require('./router/admin');
-const apiRouter = require('./router/api');
-const token = require('./middleware/token');
+const {  getErrors, notFound } = require('./middleware/errors');
+const locals = require('./middleware/locals');
 
 //express middleware start
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'secret',
+    secret: settings.session_secret,
     resave: true,
     saveUninitialized: true
 }));
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(cookieParser(settings.cookie_screet))
+app.use(cookieParser(settings.cookie_secret))
+app.use(locals())
 app.set('view engine', "ejs")
 
-app.locals = {
-    date: (new Date()),
-}
-
-app.use(function(req, res, next) {
-    const messages = req.flash('messages');
-    if(messages){
-        res.locals.messages = messages;
-    }
-    next()
-})
-
 //routeing setup
-app.use('/api', token , apiRouter )
-app.use(publicRouter)
 app.use(authRouter)
-app.use('/admin',adminRouter)
+app.use( publicRouter)
+app.use('/admin', adminRouter)
 
 
 
 //error handlers
-// app.use(notFoundHandler);
-// app.use(errorHandler);
-
-//404 not found handler
+app.use(notFound);
+app.use(getErrors);
 
 //application listeners
-app.listen(settings.port, function () {
-    console.log('Local server running at http://localhost:' + settings.port);
-})
+const listeners = () =>  console.log('Local server running at http://localhost:' + settings.port);
+app.listen(settings.port, listeners)

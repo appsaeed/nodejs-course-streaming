@@ -21,7 +21,7 @@
       <% if (comments && comments.length > 0) { %>
       <% comments.forEach(comment => { %>
       <% const content = comment.content; %>
-      <div class="box" style="<%= comment.user_id === user.id ? 'order:-1' : '' %>">
+      <div class="box <%= comment.user_id === user.id ? 'order:-1' : '' %>">
          <div class="content"><span><%= comment.date %></span>
             <p> - <%= comment.title %> - </p>
             <a href="/watch/<%= comment.content_id %>">view content</a></div>

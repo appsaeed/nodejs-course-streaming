@@ -1,4 +1,4 @@
-const { hash } = require('../app/utilies');
+const { hash } = require('../app/utilities');
 const Auth = require('../model/Auth');
 const User = require('../model/User');
 
@@ -75,7 +75,13 @@ class AuthController {
             const save = await User.create(data);
 
             if (save) {
+
                 req.flash('messages', ['Successfully created account!'])
+                
+                if(((await Auth.login(res, email, password)))){
+                    return res.redirect('/')
+                }
+                
                 return res.redirect('/login')
             }
 

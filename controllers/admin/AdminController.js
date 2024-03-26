@@ -1,4 +1,4 @@
-const { hash, hasCompare } = require('../../app/utilies');
+const { hash, hasCompare } = require('../../app/utilities');
 const Auth = require('../../model/Auth');
 const Playlist = require('../../model/Playlist');
 const Tutor = require('../../model/Tutor');

@@ -1,11 +1,15 @@
 <%- include('../layout/admin_header.ejs', { title : 'Comments' }) %>
-
+<style>
+   .order-1{
+      order: -1 !important;
+   }
+</style>
 <section class="comments">
    <h1 class="heading">User comments</h1>
    <div class="show-comments">
       <% if (comments?.length) { %>
       <% comments?.forEach(comment => { %>
-         <div class="box" style="<%= comment === 'tutor_id' ? 'order:-1': ''%>">
+         <div class="box <%= comment.tutor_id === tutor_id ? 'order:-1': ''%>">
             <div class="content">
                <span><%= comment.date %></span>
                 <p><%= comment.title  %></p>

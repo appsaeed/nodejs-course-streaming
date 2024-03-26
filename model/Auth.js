@@ -1,4 +1,4 @@
-const { hasCompare } = require("../app/utilies");
+const { hasCompare } = require("../app/utilities");
 const Bookmark = require("./Bookmark");
 const Comment = require("./Comment");
 const Like = require("./Like");

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "start": "NODE_ENV=production node main.js",
-    "dev": "NODE_ENV=development node --watch main.js"
+    "dev": "NODE_ENV=development node --watch main.js",
+    "db:export" : "pg_dump -h localhost -U root -d course -S schema_name --schema-only > database/tables.sql "
   },
   "author": "",
   "license": "ISC",

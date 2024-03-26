@@ -1,4 +1,4 @@
-const { hash } = require('../../app/utilies');
+const { hash } = require('../../app/utilities');
 const Auth = require('../../model/Auth');
 const Playlist = require('../../model/Playlist');
 const Tutor = require('../../model/Tutor');

@@ -1,4 +1,4 @@
-<% messages.forEach(message => { %>
+<% messages?.forEach(message => { %>
    <div class="message">
       <span><%= message %></span>
       <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
@@ -64,20 +64,20 @@
             <span>student</span>
             <a href="/profile" class="btn">view profile</a>
          <% } else { %>
-            <h3>please login or register</h3>
+            <h3>Please login</h3>
              <div class="flex-btn" style="padding-top: .5rem;">
-               <a href="/login" class="option-btn">login</a>
-               <a href="/register" class="option-btn">register</a>
+               <a href="/login" class="option-btn">Login</a>
+               <a href="/register" class="option-btn">Register</a>
             </div>
          <% } %>
       </div>
 
    <nav class="navbar">
-      <a href="/home"><i class="fas fa-home"></i><span>home</span></a>
-      <a href="/about"><i class="fas fa-question"></i><span>about us</span></a>
-      <a href="/courses"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
-      <a href="/teachers"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
-      <a href="/contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+      <a href="/home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="/about"><i class="fas fa-question"></i><span>About Us</span></a>
+      <a href="/courses"><i class="fas fa-graduation-cap"></i><span>Courses</span></a>
+      <a href="/teachers"><i class="fas fa-chalkboard-user"></i><span>Teachers</span></a>
+      <a href="/contact"><i class="fas fa-headset"></i><span>Contact Us</span></a>
    </nav>
 
 </div>

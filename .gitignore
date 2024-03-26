@@ -8,13 +8,12 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-php
+vendor
+dist
 build
-p
 .cache
 .caches
 *.local
-# public/uploaded_files/
 
 # Editor directories and files
 .vscode/*
