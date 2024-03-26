@@ -65,6 +65,7 @@ DB_PASSWORD="7890"
 ├── |   ├── ├── CommentControler.js - admin comment crud operations etc.
 ├── |   ├── ├── PlaylistContoller.js - admin playlist crud operations etc.
 ├── |   ├── └── VideoController.js - admin video crud operations etc.
+├── |   |
 ├── |   ├── AccountController.js - user profile, udpate, edit etc.
 ├── |   ├── AuthController.js - user account login, register, update etc.
 ├── |   ├── BookmakController.js - user bookmark crud operations etc.
