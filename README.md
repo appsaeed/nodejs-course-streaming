@@ -49,6 +49,7 @@ DB_PASSWORD="7890"
 ```
 
 ## Project Structure
+```
 .
 ├── /
 ├── │
@@ -113,3 +114,4 @@ DB_PASSWORD="7890"
 ├── ├── main.js - main nodejs server file
 ├── │
 └── └── README.md
+```
