@@ -57,7 +57,7 @@ DB_PASSWORD="7890"
 ├── │   ├── db.js - postgresql database connection
 ├── │   ├── settings.js - some environment variables extracted in js
 ├── │   └── upload.js - file upload using multer package
-├── │   └── utilities.js - utilities helpers functions e.g: bcrypt package to hash password
+├── │   └── utilities.js - helpers functions e.g: bcrypt package to hash password
 ├── |
 ├── ├── contollers/
 ├── │   ├── admin/
@@ -84,7 +84,7 @@ DB_PASSWORD="7890"
 ├── │   ├── auth.js - user authentication middleware
 ├── │   ├── errors.js - all errors handler middleware
 ├── │   ├── api.js or token.js - api authentication
-├── │   └── unauth.js - login, register page so login user will redirect to home page
+├── │   └── unauth.js - login, register, will redirect to home page
 ├── |
 ├── ├── model/ --- models uses for sql queries
 ├── │   ├── Model.js - parent class to help sql queries for of the models
