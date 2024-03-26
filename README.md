@@ -80,7 +80,7 @@ DB_PASSWORD="7890"
 ├── middleware/
 │   ├── amdin.js - admin authentication middleware
 │   ├── auth.js - user authentication middleware
-│   ├── errorerrorHandlerMiddleware.js - all errors handler middleware
+│   ├── errors.js - all errors handler middleware
 │   ├── api.js or token.js - api authentication
 │   └── unauth.js - login, register page so login user will redirect to home page
 |
