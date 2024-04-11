@@ -1,7 +1,11 @@
-const Model = require('./Model');
+const Model = require('letsql');
 class Bookmark  extends Model {
     
-    static get table (){return 'bookmark'}; 
+    constructor() {
+        super();
+        this.table = 'bookmark';
+        this.fillable = ['user_id','playlist_id']
+    }
 
 }
 module.exports = Bookmark;

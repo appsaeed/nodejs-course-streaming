@@ -18,18 +18,18 @@ class AccountController {
         const user_id = res.locals?.user_id || '';
 
         //get user from postgres database
-        const total_like = await Like.where('user_id',user_id).count();
-        const total_comment = await Comment.where('user_id',user_id).count();
-        const total_bookmarked = await Bookmark.where('user_id',user_id).count()
+        const total_like = await (new Like()).where('user_id',user_id).count();
+        const total_comment = await (new Comment()).where('user_id',user_id).count();
+        const total_bookmarked = await (new Bookmark()).where('user_id',user_id).count()
 
-        const getPlaylist = await Playlist.where('status', 'active')
+        const getPlaylist = await (new Playlist()).where('status', 'active')
                 .orderBy('date')
                 .limit(6)
                 .get();
 
         
         const playlistPromise = getPlaylist.map(async function(row){
-            const tutor = await Tutor.where('id', row.tutor_id).first();
+            const tutor = await (new Tutor()).where('id', row.tutor_id).first();
             return {
                 ...row,
                 tutor: tutor,
@@ -92,7 +92,7 @@ class AccountController {
                 data.image = req.file.filename;
             }
     
-            await User.where('id', user_id).update(data);
+            await (new User()).where('id', user_id).update(data);
 
             req.flash('messages', ['profile was updated successfully!'])
             return res.redirect('back');

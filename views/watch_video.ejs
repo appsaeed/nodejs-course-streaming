@@ -62,7 +62,7 @@
       <% if (comments && comments.length > 0) { %>
       <% comments.forEach(comment => { %>
 
-         <div class="box <%= comment.id === user.id ? 'order:-1' : '' %>" >
+         <div class="box <%= comment.id === comment.user?.id ? 'order:-1' : '' %>" >
             <div class="user">
                <img src="/uploaded_files/<%= comment.user?.image %>" alt="">
                <div>
@@ -71,7 +71,7 @@
                </div>
             </div>
             <p class="text"><%= comment.comment %></p>
-            <% if (comment.user) { %>
+            <% if (comment.user?.id === user?.id) { %>
                <a href="/comments/edit/<%= comment.id  %>" class="inline-option-btn">
                   edit comment
                </a>

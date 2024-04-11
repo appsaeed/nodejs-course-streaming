@@ -1,23 +1,6 @@
-    <script>
-        var darkMode = localStorage.getItem('dark-mode');
-        var body = document.body;
-        
-        var enabelDarkMode = () =>{
-        body.classList.add('dark');
-        localStorage.setItem('dark-mode', 'enabled');
-        }
-        
-        var disableDarkMode = () =>{
-        body.classList.remove('dark');
-        localStorage.setItem('dark-mode', 'disabled');
-        }
-        
-        if(darkMode === 'enabled'){
-        enabelDarkMode();
-        }else{
-        disableDarkMode();
-        }
-        
-    </script>       
+<footer class="footer">
+    &copy; copyright @ <%= app_date.getFullYear() %> by <span>mr. web designer</span> | all rights reserved!
+</footer>
+<script src="/js/admin_script.js"></script>
 </body>
 </html>

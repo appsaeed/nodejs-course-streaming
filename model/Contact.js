@@ -1,9 +1,13 @@
-const Model = require('./Model');
-class Contact  extends Model {
+const Model = require('letsql');
+class Contact extends Model {
 
-    static get table(){
-        return 'contact';
-    }    
+    constructor() {
+        super();
+        this.table = 'contact';
+        this.fillable = [
+            'name', 'email', 'number', 'message'
+        ]
+    }
 
 }
 module.exports = Contact;

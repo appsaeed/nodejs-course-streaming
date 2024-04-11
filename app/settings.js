@@ -14,6 +14,8 @@ const settings = {
 
     session_secret: process.env.SESSION_SECRET || 'secret_key',
 
+    auth_cookie_name : 'auth_cookie'
+
 }
 
 module.exports = settings;

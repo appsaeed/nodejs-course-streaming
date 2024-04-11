@@ -22,14 +22,14 @@ class LikeController {
             const content_id = req.body?.video_id || '';
             const comment = req.body?.comment || '';
 
-            const video = await Content.find(content_id);
+            const video = await (new Content()).find(content_id);
 
             if (!video) {
                 req.flash('messages', ['The video was not found'])
                 return res.redirect('back');
             }
 
-            await Comment.create({
+            await (new Comment()).insert({
                 content_id,
                 user_id,
                 tutor_id:
@@ -56,18 +56,18 @@ class LikeController {
             const video_id = req.params?.video_id || '';
             const user_id = res.locals.user?.id || '';
 
-            const content = await Content.find(video_id);
+            const content = await (new Content()).find(video_id);
 
             if (!content) {
                 res.locals.messages = ['Unable to fetch the video'];
                 res.redirect('back');
             }
 
-            if (await Like.where('content_id', video_id).first()) {
-                await Like.where('content_id', video_id).delete();
+            if (await (new Like()).where('content_id', video_id).first()) {
+                await (new Like()).where('content_id', video_id).delete();
             } else {
 
-                await Like.create({
+                await (new Like()).insert({
                     content_id: video_id,
                     user_id: user_id,
                     tutor_id: content.tutor_id

@@ -20,9 +20,9 @@ class CommentController extends Controller {
 
         const tutor_id = Auth.tutor_id(req);
 
-        const get_comments = await Comment.where('tutor_id', tutor_id).get();
+        const get_comments = await (new Comment()).where('tutor_id', tutor_id).get();
         const comments = await Promise.all(get_comments.map(async (comment) => {
-            const video = Content.find(comment.content_id);
+            const video = (new Content()).find(comment.content_id);
             return {
                 ...comment,
                 video
@@ -41,13 +41,13 @@ class CommentController extends Controller {
         const video_id = req.params?.video_id || '';
         // const tutor_id = Auth.tutor_id(req);
 
-        const video = await Content.find(video_id);
+        const video = await (new Content()).find(video_id);
 
-        const total_likes = await Like.where('content_id', video_id).count();
-        const get_comments = await Comment.where('content_id', video_id).get();
+        const total_likes = await (new Like()).where('content_id', video_id).count();
+        const get_comments = await (new Comment()).where('content_id', video_id).get();
         const comments = await Promise.all(get_comments.map(async (comment) => {
-            const user = await User.find(comment.user_id)
-            const tutor = await Tutor.find(comment.tutor_id);
+            const user = await (new User()).find(comment.user_id)
+            const tutor = await (new Tutor()).find(comment.tutor_id);
             return {
                 ...comment,
                 user,
@@ -68,8 +68,8 @@ class CommentController extends Controller {
         const video_id = req.params?.video_id || '';
         const tutor_id = Auth.tutor_id(req);
 
-        const video = await Content.find(video_id);
-        const playlists = await Playlist.where('tutor_id',tutor_id ).get();
+        const video = await (new Content()).find(video_id);
+        const playlists = await (new Playlist()).where('tutor_id',tutor_id ).get();
 
         res.render('admin/videos/edit', { video , playlists});
     }
@@ -83,7 +83,7 @@ class CommentController extends Controller {
         try {
 
             const video_id = req.body?.video_id || '';
-            const video = await Content.find(video_id);
+            const video = await (new Content()).find(video_id);
 
             if(!video) {
                 req.flash('messages', ['Video content was not found'])
@@ -104,7 +104,7 @@ class CommentController extends Controller {
                 data.video = req.files?.video[0]?.filename;
             }
 
-            Content.where('id', video_id).update(data)
+            (new Content()).where('id', video_id).update(data)
             req.flash('messages', ['playlist updated successfully'])
             return res.redirect('back');
         } catch (error) {
@@ -122,7 +122,7 @@ class CommentController extends Controller {
         try {
             const comment_id = req.params?.comment_id || '';
 
-            const deleted = await Comment.where('id', comment_id).delete();
+            const deleted = await (new Comment()).where('id', comment_id).delete();
 
             if (deleted) {
                 req.flash('messages', ['Content deleted'])
@@ -144,7 +144,7 @@ class CommentController extends Controller {
      */
     static async add(req, res) {
 
-        const playlists = await Playlist.where('tutor_id', Auth.tutor_id(req)).get();
+        const playlists = await (new Playlist()).where('tutor_id', Auth.tutor_id(req)).get();
 
         res.render('admin/videos/add', { playlists })
     }
@@ -172,7 +172,7 @@ class CommentController extends Controller {
         }
 
         try {
-            const save = await Content.create(data);
+            const save = await (new Content()).insert(data);
 
             if (save) {
                 req.flash('messages', ['Video added successfully'])
@@ -197,10 +197,10 @@ class CommentController extends Controller {
     static async profile(req, res) {
 
         const tutor_id = res.locals?.tutor?.id || '';
-        const total_playlist = await Playlist.where('tutor_id', tutor_id).count();
-        const total_content = await Content.where('tutor_id', tutor_id).count();
-        const total_like = await Like.where('tutor_id', tutor_id).count();
-        const total_comment = await Comment.where('tutor_id', tutor_id).count();
+        const total_playlist = await (new Playlist()).where('tutor_id', tutor_id).count();
+        const total_content = await (new Content()).where('tutor_id', tutor_id).count();
+        const total_like = await (new Like()).where('tutor_id', tutor_id).count();
+        const total_comment = await (new Comment()).where('tutor_id', tutor_id).count();
 
         res.render('admin/profile', {
             total_comment,
@@ -217,10 +217,10 @@ class CommentController extends Controller {
     static async dashboard(req, res) {
 
         const tutor_id = res.locals?.tutor?.id || '';
-        const total_playlist = await Playlist.where('tutor_id', tutor_id).count();
-        const total_content = await Content.where('tutor_id', tutor_id).count();
-        const total_like = await Like.where('tutor_id', tutor_id).count();
-        const total_comment = await Comment.where('tutor_id', tutor_id).count();
+        const total_playlist = await (new Playlist()).where('tutor_id', tutor_id).count();
+        const total_content = await (new Content()).where('tutor_id', tutor_id).count();
+        const total_like = await (new Like()).where('tutor_id', tutor_id).count();
+        const total_comment = await (new Comment()).where('tutor_id', tutor_id).count();
 
         res.render('admin/dashboard', {
             total_comment,
@@ -290,7 +290,7 @@ class CommentController extends Controller {
             data.image = req.file.filename;
         }
 
-        const tutor = await Tutor.where('email', data.email).first();
+        const tutor = await (new Tutor()).where('email', data.email).first();
 
         if (tutor) {
             req.flash('messages', ['The email already exists!'])
@@ -299,7 +299,7 @@ class CommentController extends Controller {
 
         try {
 
-            const save = await Tutor.create(data);
+            const save = await (new Tutor()).insert(data);
 
             if (save) {
                 return res.redirect('/admin/login')

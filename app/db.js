@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 // eslint-disable-next-line no-unused-vars
-const { Pool, Client } = require('pg');
+const mysql = require('mysql');
 
 
 const config = {
@@ -11,5 +11,7 @@ const config = {
     port: process.env.DB_PORT,
 }
 
-module.exports = { client: new Client(config) };
-module.exports = (new Pool(config));
+
+var con = mysql.createConnection(config);
+
+module.exports = con;

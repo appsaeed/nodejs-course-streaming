@@ -7,7 +7,7 @@
     "test": "test",
     "start": "NODE_ENV=production node main.js",
     "dev": "NODE_ENV=development node --watch main.js",
-    "db:export" : "pg_dump -h localhost -U root -d course -S schema_name --schema-only > database/tables.sql "
+    "db:export": "pg_dump -h localhost -U root -d course -S schema_name --schema-only > database/tables.sql "
   },
   "author": "",
   "license": "ISC",
@@ -22,9 +22,9 @@
     "express-session": "^1.18.0",
     "express-validator": "^7.0.1",
     "http-errors": "^2.0.0",
-    "jsonwebtoken": "^9.0.2",
+    "letsql": "^1.0.3",
     "multer": "^1.4.5-lts.1",
-    "pg": "^8.11.3"
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "eslint": "^8.57.0"

@@ -12,11 +12,11 @@ class CommentController {
         const user_id = res.locals?.user?.id || '';
 
         //get bookmark from database
-        const all_comments = await Comment.where('user_id', user_id).get();
+        const all_comments = await (new Comment()).where('user_id', user_id).get();
 
         const commentsPromise = all_comments.map(async function(comment) {
 
-            const contents =  await Content.where('id', comment.content_id).get();
+            const contents =  await (new Content()).where('id', comment.content_id).get();
 
             return {
                 ...comment,
@@ -38,7 +38,7 @@ class CommentController {
      */
     static async edit(req, res) {
         const comment_id = req.params?.comment_id || '';
-        const comment = await Comment.find(comment_id);
+        const comment = await (new Comment()).find(comment_id);
         if(!comment){
             req.flash( 'messages', ['Comment not found']);
             res.redirect('back');
@@ -63,7 +63,7 @@ class CommentController {
             const content_id = req.body?.video_id || '';
             const comment = req.body?.comment || '';
 
-            const video = await Content.find(content_id);
+            const video = await (new Content()).find(content_id);
 
             if (!video) {
                 req.flash('messages', ['The video was not found'])
@@ -77,7 +77,7 @@ class CommentController {
                 comment
             }
 
-            await Comment.create(data);
+            await (new Comment()).insert(data);
             req.flash('messages', ['Comment Saved'])
             return res.redirect('back');
 
@@ -100,7 +100,7 @@ class CommentController {
             return res.redirect('back');
         }
         
-        if((await Comment.where({ id: comment_id }).update({ comment })))
+        if((await (new Comment()).where({ id: comment_id }).update({ comment })))
         req.flash('messages', ['Comment was updated'])
         return res.redirect('back');
 
@@ -115,7 +115,7 @@ class CommentController {
 
         const comment_id = req.params?.comment_id || "";
 
-        await Comment.where('id', comment_id).delete();
+        await (new Comment()).where('id', comment_id).delete();
         
 
 
@@ -124,7 +124,7 @@ class CommentController {
             return res.redirect('back');
         }
 
-        await Comment.where('id', comment_id).delete();
+        await (new Comment()).where('id', comment_id).delete();
         
         req.flash('messages', ['Comment was removed'])
         

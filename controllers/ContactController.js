@@ -37,7 +37,7 @@ class ContactController {
         }
 
         try {
-            if((await Contact.create(data))){
+            if((await (new Contact()).insert(data))){
                 req.flash('messages', ['Your message has been sent we will try to respond with you as soon as possible'])
                 return res.redirect('back');
             }  

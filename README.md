@@ -94,13 +94,13 @@ DB_PASSWORD="7890"
 ├── model/ --- models uses for sql queries
 │   ├── Model.js - parent class to help sql queries for of the models
 │   ├── Auth.js - get authenticated user, tutor id , user_id etc
-│   ├── Bookmark.js - run sql query on bookmark table
+│   ├── (new Bookmark()).js - run sql query on bookmark table
 │   ├── Contact.js -  run sql query on Contact table
-│   ├── Content.js - run sql query on Content table
-│   ├── Like.js - run sql query on likes table
-│   ├── Playlist.js - run sql query on playlist table
-│   ├── Tutor.js - run sql query on tutors table
-│   └── User.js - run sql query on users table
+│   ├── (new Content()).js - run sql query on Content table
+│   ├── (new Like()).js - run sql query on likes table
+│   ├── (new Playlist()).js - run sql query on playlist table
+│   ├── (new Tutor()).js - run sql query on tutors table
+│   └── (new User()).js - run sql query on users table
 |
 ├── public/ 
 │   └── Nothing updated on this directory 

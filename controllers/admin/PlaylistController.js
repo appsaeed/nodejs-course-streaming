@@ -19,9 +19,9 @@ class PlaylistController extends Controller {
 
         const tutor_id = Auth.tutor_id(req);
 
-        const get_playlist = await Playlist.where('tutor_id', tutor_id).get();
+        const get_playlist = await (new Playlist()).where('tutor_id', tutor_id).get();
         const playlists = await Promise.all(get_playlist.map(async (list) => {
-            const total_videos = await Content.where('playlist_id', list.id).count()
+            const total_videos = await (new Content()).where('playlist_id', list.id).count()
             return {
                 ...list,
                 total_videos,
@@ -40,9 +40,9 @@ class PlaylistController extends Controller {
         const playlist_id = req.params?.playlist_id || '';
         const tutor_id = Auth.tutor_id(req);
 
-        const playlist = await Playlist.find(playlist_id);
+        const playlist = await (new Playlist()).find(playlist_id);
 
-        const videos = await Content.where({ playlist_id, tutor_id }).get();
+        const videos = await (new Content()).where({ playlist_id, tutor_id }).get();
 
         res.render('admin/playlist/view', { playlist, videos });
     }
@@ -57,9 +57,9 @@ class PlaylistController extends Controller {
         const playlist_id = req.params?.playlist_id || '';
         const tutor_id = Auth.tutor_id(req);
 
-        const playlist = await Playlist.find(playlist_id);
+        const playlist = await (new Playlist()).find(playlist_id);
 
-        const videos = await Content.where({ playlist_id, tutor_id }).first();
+        const videos = await (new Content()).where({ playlist_id, tutor_id }).first();
 
         res.render('admin/playlist/edit', { playlist, videos });
     }
@@ -83,7 +83,7 @@ class PlaylistController extends Controller {
                 data.thumb = req.file?.filename;
             }
 
-            Playlist.where('id', playlist_id).update(data)
+            (new Playlist()).where('id', playlist_id).update(data)
 
             req.flash('messages', ['playlist updated successfully'])
             return res.redirect('back');
@@ -103,7 +103,7 @@ class PlaylistController extends Controller {
         try {
             const playlist_id = req.params?.playlist_id || '';
 
-            const deleted = await Playlist.where('id', playlist_id).delete();
+            const deleted = await (new Playlist()).where('id', playlist_id).delete();
 
             if (deleted) {
                 req.flash('messages', ['Playlist deleted'])
@@ -146,7 +146,7 @@ class PlaylistController extends Controller {
         }
 
         try {
-            const save = await Playlist.create(data);
+            const save = await (new Playlist()).insert(data);
 
             if (save) {
                 req.flash('messages', ['Playlist added successfully'])
@@ -171,10 +171,10 @@ class PlaylistController extends Controller {
     static async profile(req, res) {
 
         const tutor_id = res.locals?.tutor?.id || '';
-        const total_playlist = await Playlist.where('tutor_id', tutor_id).count();
-        const total_content = await Content.where('tutor_id', tutor_id).count();
-        const total_like = await Like.where('tutor_id', tutor_id).count();
-        const total_comment = await Comment.where('tutor_id', tutor_id).count();
+        const total_playlist = await (new Playlist()).where('tutor_id', tutor_id).count();
+        const total_content = await (new Content()).where('tutor_id', tutor_id).count();
+        const total_like = await (new Like()).where('tutor_id', tutor_id).count();
+        const total_comment = await (new Comment()).where('tutor_id', tutor_id).count();
 
         res.render('admin/profile', {
             total_comment,
@@ -191,10 +191,10 @@ class PlaylistController extends Controller {
     static async dashboard(req, res) {
 
         const tutor_id = res.locals?.tutor?.id || '';
-        const total_playlist = await Playlist.where('tutor_id', tutor_id).count();
-        const total_content = await Content.where('tutor_id', tutor_id).count();
-        const total_like = await Like.where('tutor_id', tutor_id).count();
-        const total_comment = await Comment.where('tutor_id', tutor_id).count();
+        const total_playlist = await (new Playlist()).where('tutor_id', tutor_id).count();
+        const total_content = await (new Content()).where('tutor_id', tutor_id).count();
+        const total_like = await (new Like()).where('tutor_id', tutor_id).count();
+        const total_comment = await (new Comment()).where('tutor_id', tutor_id).count();
 
         res.render('admin/dashboard', {
             total_comment,
@@ -264,7 +264,7 @@ class PlaylistController extends Controller {
             data.image = req.file.filename;
         }
 
-        const tutor = await Tutor.where('email', data.email).first();
+        const tutor = await (new Tutor()).where('email', data.email).first();
 
         if (tutor) {
             req.flash('messages', ['The email already exists!'])
@@ -273,7 +273,7 @@ class PlaylistController extends Controller {
 
         try {
 
-            const save = await Tutor.create(data);
+            const save = await (new Tutor()).insert(data);
 
             if (save) {
                 return res.redirect('/admin/login')

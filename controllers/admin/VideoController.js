@@ -6,7 +6,6 @@ const Controller = require('../Controller');
 const Like = require('../../model/Like');
 const Comment = require('../../model/Comment');
 const User = require('../../model/User');
-const db = require('../../app/db');
 
 class VideoController extends Controller {
 
@@ -19,10 +18,7 @@ class VideoController extends Controller {
     static async index(req, res) {
 
         const tutor_id = Auth.tutor_id(req);
-        let videos = [];
-        // let videos = await Content.where('tutor_id', tutor_id).get();
-        videos = (await db.query(`SELECT * FROM content WHERE tutor_id = '${tutor_id}'`))
-        videos = videos.rows;
+        let videos = await (new Content()).where('tutor_id', tutor_id).get();
         return res.render('admin/videos/index', { videos })
     }
     /**
@@ -34,13 +30,13 @@ class VideoController extends Controller {
 
         const video_id = req.params?.video_id || '';
 
-        const video = await Content.find(video_id);
+        const video = await (new Content()).find(video_id);
 
-        const total_likes = await Like.where('content_id', video_id).count();
-        const get_comments = await Comment.where('content_id', video_id).get();
+        const total_likes = await (new Like()).where('content_id', video_id).count();
+        const get_comments = await (new Comment()).where('content_id', video_id).get();
         const comments = await Promise.all(get_comments.map(async (comment) => {
-            const user = await User.find(comment.user_id)
-            const tutor = await Tutor.find(comment.tutor_id);
+            const user = await (new User()).find(comment.user_id)
+            const tutor = await (new Tutor()).find(comment.tutor_id);
             return {
                 ...comment,
                 user,
@@ -65,8 +61,8 @@ class VideoController extends Controller {
         const video_id = req.params?.video_id || '';
         const tutor_id = Auth.tutor_id(req);
 
-        const video = await Content.find(video_id);
-        const playlists = await Playlist.where('tutor_id', tutor_id).get();
+        const video = await (new Content()).find(video_id);
+        const playlists = await (new Playlist()).where('tutor_id', tutor_id).get();
 
         res.render('admin/videos/edit', { video, playlists });
     }
@@ -80,7 +76,7 @@ class VideoController extends Controller {
         try {
 
             const video_id = req.body?.video_id || '';
-            const video = await Content.find(video_id);
+            const video = await (new Content()).find(video_id);
 
             if (!video) {
                 req.flash('messages', ['Video content was not found'])
@@ -101,7 +97,7 @@ class VideoController extends Controller {
                 data.video = req.files?.video[0]?.filename;
             }
 
-            Content.where('id', video_id).update(data)
+            (new Content()).where('id', video_id).update(data)
             req.flash('messages', ['playlist updated successfully'])
             return res.redirect('back');
         } catch (error) {
@@ -119,7 +115,7 @@ class VideoController extends Controller {
         try {
             const video_id = req.params?.video_id || '';
 
-            const deleted = await Content.where('id', video_id).delete();
+            const deleted = await (new Content()).where('id', video_id).delete();
 
             if (deleted) {
                 req.flash('messages', ['Content deleted'])
@@ -141,7 +137,7 @@ class VideoController extends Controller {
      */
     static async add(req, res) {
 
-        const playlists = await Playlist.where('tutor_id', Auth.tutor_id(req)).get();
+        const playlists = await (new Playlist()).where('tutor_id', Auth.tutor_id(req)).get();
 
         res.render('admin/videos/add', { playlists })
     }
@@ -157,8 +153,7 @@ class VideoController extends Controller {
             description: req.body?.description || '',
             status: req.body?.status || 'active',
             tutor_id: Auth.tutor_id(req),
-            playlist_id: req.body?.playlist_id || "",
-            date: (new Date()).toDateString(),
+            playlist_id: req.body?.playlist_id || ""
         }
 
         if (Array.isArray(req.files?.thumb) && req.files?.thumb[0]?.filename) {
@@ -169,7 +164,7 @@ class VideoController extends Controller {
         }
 
         try {
-            const save = await Content.create(data);
+            const save = await (new Content()).insert(data);
 
             if (save) {
                 req.flash('messages', ['Video added successfully'])
@@ -196,14 +191,17 @@ class VideoController extends Controller {
     static async search(req, res) {
         const search = String(req.query?.search || '');
         const tutor_id = res.locals?.tutor_id || '';
-        const pQuery = await db.query(`SELECT * FROM playlist WHERE title LIKE '%${search}%' AND tutor_id = '${tutor_id}' ORDER BY date DESC`)
-        const all_playlists = pQuery.rows;
 
-        const vQuery = await db.query(`SELECT * FROM content WHERE title LIKE '%${search}%' AND tutor_id = '${tutor_id}' ORDER BY date DESC`)
-        const get_videos = vQuery.rows;
+        const all_playlists = await (new Playlist())
+        .where('title', 'LIKE', `%${search}%`)
+        .where('tutor_id', tutor_id).orderBy('date', 'DESC').get();
+
+        const get_videos = await (new Content())
+        .where('title', 'LIKE', `%${search}%`)
+        .where('tutor_id','=', tutor_id).orderBy('date', 'DESC').get();
 
         const playlists = await Promise.all(all_playlists.map(async (item) => {
-            const total_videos = await Content.where('playlist_id', item.id).count();
+            const total_videos = await (new Content()).where('playlist_id', item.id).count();
             return { ...item, total_videos }
         }))
 

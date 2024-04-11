@@ -22,10 +22,11 @@ class AuthController {
         const email = req.body?.email || '';
         const password = req.body?.password || '';
 
-        if(((await Auth.login(res, email, password)))){
+        if (((await Auth.login(res, email, password)))) {
+            console.log('login successful')
             return res.redirect('/')
         }
-        
+
         req.flash('messages', ['Email and password incorrect!'])
         return res.redirect('back');
     }
@@ -54,7 +55,7 @@ class AuthController {
             return res.redirect('back');
         }
 
-        const user = await User.where('email', email).first();
+        const user = await (new User()).where('email', email).first();
 
         if (user) {
             req.flash('messages', ['The user already exists!'])
@@ -70,28 +71,24 @@ class AuthController {
             data.image = req.file.filename;
         }
 
+
         try {
 
-            const save = await User.create(data);
+           const insert = await (new User()).insert(data);
 
-            if (save) {
+            req.flash('messages', ['Successfully created account!'])
 
-                req.flash('messages', ['Successfully created account!'])
-                
-                if(((await Auth.login(res, email, password)))){
-                    return res.redirect('/')
-                }
-                
-                return res.redirect('/login')
+            if (((await Auth.login(res, email, password)))) {
+                return res.redirect('/')
             }
+
+            return res.redirect('/login')
+
 
         } catch (error) {
             req.flash('messages', [error.message]);
             return res.redirect('back');
         }
-
-        req.flash('messages', ['Unable to register please try again later!']);
-        return res.redirect('back');
     }
 
 }

@@ -1,9 +1,20 @@
-const Model = require('./Model');
-class Content  extends Model {
+const Model = require('letsql');
+class Content extends Model {
 
-    static get table (){
-        return 'content'
-    };    
+    constructor() {
+        super();
+        this.table = 'content';
+        this.fillable = [
+            'tutor_id',
+            'playlist_id',
+            'title',
+            'description',
+            'video',
+            'thumb',
+            'date',
+            'status'
+        ]
+    }
 
 }
 module.exports = Content;

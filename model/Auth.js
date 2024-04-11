@@ -1,3 +1,4 @@
+const settings = require("../app/settings");
 const { hasCompare } = require("../app/utilities");
 const Bookmark = require("./Bookmark");
 const Comment = require("./Comment");
@@ -15,13 +16,13 @@ class Auth {
         
         const user_id = res.locals?.user_id || '';
 
-        const user = await User.find(user_id);
+        const user = await (new User()).find(user_id);
 
         if (!user) return null;
 
-        const total_like = await Like.where('user_id', user_id).count();
-        const total_comment = await Comment.where('user_id', user_id).count();
-        const total_bookmarked = await Bookmark.where('user_id', user_id).count();
+        const total_like = await (new Like()).where('user_id', user_id).count();
+        const total_comment = await (new Comment()).where('user_id', user_id).count();
+        const total_bookmarked = await (new Bookmark()).where('user_id', user_id).count();
 
         return {
             ...user,
@@ -37,7 +38,7 @@ class Auth {
      */
     static async tutorLogin(res, email, password) {
 
-        const user = await Tutor.where('email', email).first();
+        const user = await (new Tutor()).where('email', email).first();
         const hash = user?.password || '';
         if (user?.id && hasCompare(password, hash)) {
             res.cookie('tutor_id', user.id, { httpOnly: true });
@@ -52,11 +53,11 @@ class Auth {
      */
     static async login(res, email, password) {
 
-        const user = await User.where('email', email).first();
+        const user = await (new User()).where('email', email).first();
         const hash = user?.password || '';
 
         if (user?.id && hasCompare(password, hash)) {
-            res.cookie('user_id', user.id, { httpOnly: true });
+            res.cookie(settings.auth_cookie_name, user.id, { httpOnly: true });
             return true;
         }
 
@@ -81,7 +82,7 @@ class Auth {
      */
     static async logout(req, res) {
 
-        res.cookie('user_id', null, { httpOnly: true, maxAge: 0 });
+        res.cookie(settings.auth_cookie_name, null, { httpOnly: true, maxAge: 0 });
 
         return res.redirect('/login');
     }

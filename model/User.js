@@ -1,9 +1,9 @@
-const Model = require('./Model');
-class User  extends Model {
-
-    static get table (){
-        return 'users'
-    };   
-
+const Model = require('letsql');
+class User  extends Model { 
+    constructor() {
+        super();
+        this.table = 'users';
+        this.fillable = ['name', 'email', 'password', 'image']
+    }
 }
 module.exports = User;
