@@ -1,8 +1,7 @@
 const Model = require('./Model');
 class Bookmark  extends Model {
-
-    static table = 'bookmark';    
+    
+    static get table (){return 'bookmark'}; 
 
 }
-Bookmark.parentStaticMethod(Bookmark)
 module.exports = Bookmark;

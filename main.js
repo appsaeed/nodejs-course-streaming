@@ -12,6 +12,10 @@ const authRouter = require('./router/auth');
 const adminRouter = require('./router/admin');
 const {  getErrors, notFound } = require('./middleware/errors');
 const locals = require('./middleware/locals');
+const Like = require('./model/Like');
+const Comment = require('./model/Comment');
+const User = require('./model/User');
+const Model = require('./model/Model');
 
 //express middleware start
 const app = express();
@@ -33,6 +37,9 @@ app.use(authRouter)
 app.use( publicRouter)
 app.use('/admin', adminRouter)
 
+const like = Like.where('name', 'saeed').orderBy().updateSql('name', 'jon');
+
+console.log(like)
 
 
 //error handlers
@@ -41,4 +48,4 @@ app.use(getErrors);
 
 //application listeners
 const listeners = () =>  console.log('Local server running at http://localhost:' + settings.port);
-app.listen(settings.port, listeners)
+app.listen(settings.port)

@@ -1,8 +1,9 @@
 const Model = require('./Model');
 class Comment  extends Model {
 
-    static table = 'comments';    
+    static get table(){
+        return 'comments';
+    }    
 
 }
-Comment.parentStaticMethod(Comment)
 module.exports = Comment;

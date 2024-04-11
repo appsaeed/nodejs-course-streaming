@@ -1,8 +1,9 @@
 const Model = require('./Model');
 class Tutor  extends Model {
 
-    static table = 'tutors';    
+    static get table (){
+        return 'tutors'
+    };    
 
 }
-Tutor.parentStaticMethod(Tutor)
 module.exports = Tutor;

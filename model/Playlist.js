@@ -1,8 +1,9 @@
 const Model = require('./Model');
 class Playlist  extends Model {
 
-    static table = 'playlist';    
+    static get table (){
+        return 'playlist'
+    };    
 
 }
-Playlist.parentStaticMethod(Playlist)
 module.exports = Playlist;

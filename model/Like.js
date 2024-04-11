@@ -1,8 +1,9 @@
 const Model = require('./Model');
 class Like  extends Model {
-
-    static table = 'likes';    
+    
+    static get table(){
+        return 'likes';
+    }
 
 }
-Like.parentStaticMethod(Like)
 module.exports = Like;
