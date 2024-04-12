@@ -109,17 +109,9 @@ class PlaylistController extends Controller {
      * @param {import('express').Response} res
      */
     static async searchCourse(req, res){
-        const search = String(req.query?.search || '');
-        const pQuery = await db.query(`SELECT * FROM playlist WHERE title LIKE '%${search}%' AND status = 'active';`);
-        const playlists = pQuery.rows;
+        const search = String(req.query?.search || '').trim();
 
-        const courses = await Promise.all(playlists.map(async (item)=> {
-            const tutor = await Tutor.find(item.tutor_id);
-            return {
-                ...item,
-                tutor
-            }
-        }))
+        const courses = await Playlist.tutor().where('title', 'LIKE', `%${search}%`).get()
         
         return res.render('search_course', {courses , search })
     }

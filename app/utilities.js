@@ -5,4 +5,11 @@ function hash(password) {
 function hasCompare(password, hash) {
     return bcrypt.compareSync(password, hash);
 }
-module.exports = { hash, hasCompare}
+
+function isObjectLike(value) {
+    return Object.prototype.toString.call(value) === "[object Object]";
+}
+function isObject(obj) {
+    return obj?.constructor === Object;
+}
+module.exports = { hash, hasCompare ,isObjectLike, isObject}

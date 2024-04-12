@@ -1,8 +1,14 @@
 const Model = require('./Model');
+const Tutor = require('./Tutor');
 class Contact  extends Model {
 
-    static table = 'contact';    
+    static get table() { return 'contact'};    
+
+    static tutor() {
+        this.hasOne(Tutor, 'id', 'tutor_id', 'tutor');
+        return this;
+    }
 
 }
-Contact.parentStaticMethod(Contact)
+Contact.flash(Contact)
 module.exports = Contact;

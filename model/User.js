@@ -4,5 +4,5 @@ class User  extends Model {
     static table = 'users';    
 
 }
-User.parentStaticMethod(User)
+User.flash(User)
 module.exports = User;

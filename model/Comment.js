@@ -4,5 +4,5 @@ class Comment  extends Model {
     static table = 'comments';    
 
 }
-Comment.parentStaticMethod(Comment)
+Comment.flash(Comment)
 module.exports = Comment;

@@ -10,8 +10,13 @@ const flash = require('connect-flash');
 const publicRouter = require('./router/public');
 const authRouter = require('./router/auth');
 const adminRouter = require('./router/admin');
-const {  getErrors, notFound } = require('./middleware/errors');
+const { getErrors, notFound } = require('./middleware/errors');
 const locals = require('./middleware/locals');
+const Playlist = require('./model/Playlist');
+const Like = require('./model/Like');
+const Comment = require('./model/Comment');
+const Bookmark = require('./model/Bookmark');
+const Contact = require('./model/Contact');
 
 //express middleware start
 const app = express();
@@ -30,7 +35,7 @@ app.set('view engine', "ejs")
 
 //routeing setup
 app.use(authRouter)
-app.use( publicRouter)
+app.use(publicRouter)
 app.use('/admin', adminRouter)
 
 
@@ -40,5 +45,5 @@ app.use(notFound);
 app.use(getErrors);
 
 //application listeners
-const listeners = () =>  console.log('Local server running at http://localhost:' + settings.port);
+const listeners = () => console.log('Local server running at http://localhost:' + settings.port);
 app.listen(settings.port, listeners)

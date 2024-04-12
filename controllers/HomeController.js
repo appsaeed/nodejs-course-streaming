@@ -16,18 +16,10 @@ class HomeController extends Controller {
      */
     static async index(req, res) {
 
-        const get_playlist = await Playlist.where('status', 'active')
+        const playlists = await Playlist.tutor().where('status', 'active')
             .orderBy('date')
             .limit(6)
             .get();
-
-        const playlists = await Promise.all(get_playlist.map(async (list) => {
-            const tutor = await Tutor.find(list.tutor_id)
-            return {
-                ...list,
-                tutor
-            }
-        }))
 
         const user_id = res.locals?.user_id || '';
         const total_like = await Like.where('user_id', user_id).count();
@@ -43,22 +35,7 @@ class HomeController extends Controller {
      */
     static async about(req, res) {
 
-        // const like = await Like.where('user_id', user_id).count();
-        const getPlaylist = await Playlist.where('status', 'active')
-            .orderBy('date')
-            .limit(6)
-            .get();
-
-
-        const playlistPromise = getPlaylist.map(async function (row) {
-            const tutor = await Tutor.where('id', row.tutor_id).first();
-            return {
-                ...row,
-                tutor: tutor,
-            }
-        })
-
-        const playlist = await Promise.all(playlistPromise);
+        const playlist = await Playlist.tutor().orderBy('date').limit(6).get();
 
         res.render('about', {
             playlist: playlist
@@ -71,22 +48,7 @@ class HomeController extends Controller {
      * @param {import('express').Response} res
      */
     static async courses(req, res) {
-        // const like = await Like.where('user_id', user_id).count();
-        const getPlaylist = await Playlist.where('status', 'active')
-            .orderBy('date')
-            .limit(6)
-            .get();
-
-
-        const playlistPromise = getPlaylist.map(async function (row) {
-            const tutor = await Tutor.where('id', row.tutor_id).first();
-            return {
-                ...row,
-                tutor: tutor,
-            }
-        })
-
-        const playlist = await Promise.all(playlistPromise);
+        const playlist = await Playlist.tutor().where('status', 'active').orderBy('date').limit(6).get();
 
         res.render('courses', { playlist })
     }
@@ -99,21 +61,16 @@ class HomeController extends Controller {
      */
     static async teachers(req, res) {
 
-        const get_tutors = await db.query('SELECT * FROM  tutors;');
-        const tutors = get_tutors.rows;
-        const teachers = await Promise.all(tutors.map(async (tutor) => {
-            const total_playlists = await Playlist.where('tutor_id', tutor.id).count();
-            const total_videos = await Content.where('tutor_id', tutor.id).count();
-            const total_comments = await Comment.where('tutor_id', tutor.id).count();
-            const total_likes = await Like.where('tutor_id', tutor.id).count();
+        const tutors = await Tutor.playlists().videos().comments().likes().get()
+        const teachers = tutors.map( tutor => {
             return {
                 ...tutor,
-                total_playlists,
-                total_videos,
-                total_comments,
-                total_likes,
+                total_playlists : tutor.playlists.length,
+                total_videos : tutor.videos.length,
+                total_comments: tutor.comments.length,
+                total_likes : tutor.likes.length,
             }
-        }))
+        })
 
         return res.render('teachers', { teachers })
     }
@@ -165,7 +122,9 @@ class HomeController extends Controller {
     static async like(req, res) {
         const user_id = res.locals?.user?.id || '';
 
-        const query = await Like.where('user_id', user_id).all();
+        const query = await Like.content().where('user_id', user_id).all();
+
+        console.log(query);
         const likes = await Promise.all(query.map(async (item) => {
             const content = await Content.find(item.content_id);
             const tutor = await Tutor.find(item.tutor_id);
