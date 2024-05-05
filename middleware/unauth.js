@@ -2,7 +2,7 @@ const User = require("../model/User");
 
 async function unauth(req, res, next) {
     const user_id = req.cookies?.user_id || '';
-    const user = await User.find(user_id);
+    const user = await new User().find(user_id);
     if(user){
         req.flash('messages', ['Already logged in'])
         return res.redirect('/')

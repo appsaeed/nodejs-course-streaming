@@ -60,7 +60,7 @@ class HomeController extends Controller {
      * @param {import('express').Response} res
      */
     static async teachers(req, res) {
-
+        
         const tutors = await Tutor.playlists().videos().comments().likes().get()
         const teachers = tutors.map( tutor => {
             return {

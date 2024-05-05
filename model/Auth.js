@@ -15,7 +15,7 @@ class Auth {
         
         const user_id = res.locals?.user_id || '';
 
-        const user = await User.find(user_id);
+        const user = await new User().find(user_id);
 
         if (!user) return null;
 
@@ -37,7 +37,7 @@ class Auth {
      */
     static async tutorLogin(res, email, password) {
 
-        const user = await Tutor.where('email', email).first();
+        const user = await new Tutor().where('email', email).first();
         const hash = user?.password || '';
         if (user?.id && hasCompare(password, hash)) {
             res.cookie('tutor_id', user.id, { httpOnly: true });
@@ -52,7 +52,7 @@ class Auth {
      */
     static async login(res, email, password) {
 
-        const user = await User.where('email', email).first();
+        const user = await new User().where('email', email).first();
         const hash = user?.password || '';
 
         if (user?.id && hasCompare(password, hash)) {

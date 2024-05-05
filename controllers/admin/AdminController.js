@@ -28,10 +28,10 @@ class AdminController extends Controller {
     static async profile(req, res){
         
         const tutor_id = res.locals?.tutor?.id || '';
-        const total_playlist = await Playlist.where('tutor_id', tutor_id ).count();
-        const total_content = await Content.where('tutor_id', tutor_id ).count();
-        const total_like = await Like.where('tutor_id', tutor_id ).count();
-        const total_comment = await Comment.where('tutor_id', tutor_id ).count();
+        const total_playlist = await new Playlist().where('tutor_id', tutor_id ).count();
+        const total_content = await new Content().where('tutor_id', tutor_id ).count();
+        const total_like = await new Like().where('tutor_id', tutor_id ).count();
+        const total_comment = await new Comment().where('tutor_id', tutor_id ).count();
 
         res.render('admin/profile/index', {
             total_comment,
@@ -89,7 +89,7 @@ class AdminController extends Controller {
                 data.image = req.file.filename;
             }
     
-            await Tutor.where('id', tutor_id).update(data);
+            await new Tutor().where('id', tutor_id).update(data);
 
             req.flash('messages', ['profile was updated successfully!'])
             return res.redirect('back');
@@ -111,10 +111,10 @@ class AdminController extends Controller {
     static async dashboard(req, res){
 
         const tutor_id = res.locals?.tutor?.id || '';
-        const total_playlist = await Playlist.where('tutor_id', tutor_id ).count();
-        const total_content = await Content.where('tutor_id', tutor_id ).count();
-        const total_like = await Like.where('tutor_id', tutor_id ).count();
-        const total_comment = await Comment.where('tutor_id', tutor_id ).count();
+        const total_playlist = await new Playlist().where('tutor_id', tutor_id ).count();
+        const total_content = await new Content().where('tutor_id', tutor_id ).count();
+        const total_like = await new Like().where('tutor_id', tutor_id ).count();
+        const total_comment = await new Comment().where('tutor_id', tutor_id ).count();
 
         res.render('admin/dashboard', {
             total_comment,
@@ -144,7 +144,7 @@ class AdminController extends Controller {
         const email = req.body?.email || '';
         const password = req.body?.password || '';
 
-        const login = await Auth.tutorLogin(res, email, password);
+        const login = await new Auth().tutorLogin(res, email, password);
 
         if(login) return res.redirect('/admin/profile');
 
@@ -184,7 +184,7 @@ class AdminController extends Controller {
             data.image = req.file.filename;
         }
 
-        const tutor = await Tutor.where('email', data.email).first();
+        const tutor = await new Tutor().where('email', data.email).first();
 
         if(tutor){
             req.flash('messages', ['The email already exists!'])
@@ -193,7 +193,7 @@ class AdminController extends Controller {
 
         try {
 
-            const save = await Tutor.create(data);
+            const save = await new Tutor().create(data);
 
             if(save){
                 return res.redirect('/admin/login')

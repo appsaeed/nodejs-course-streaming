@@ -29,7 +29,6 @@ async function _process(reset = true) {
             if (ids.length === 0) return;
 
             let model = relation.model;
-            console.log('mode:::::',model);
             let callback = relation.callback;
             model.selectMore([])
             if (callback && typeof callback === 'function') {
@@ -94,18 +93,18 @@ async function _process(reset = true) {
 /** @class Model */
 class Model {
 
-    static table = 't'; // init table, must be overridden by child class
-    static primaryKey = 'id'; // can be overridden by child class
-    static fillable = []; // can be overridden by child class
-    static guarded = []; // can be overridden by child class
-    static hidden = []; // can be overridden by child class
-    static timestamp = true; // can be overridden by child class
-    static softDelete = false; // can be overridden by child class
-    static perPage = 10; // can be overridden by child class
-    static casts = {}; // can be overridden by child class
-    static _query= {}; // init query. should not be overridden by child class
+    table = 't'; // init table, must be overridden by child class
+    primaryKey = 'id'; // can be overridden by child class
+    fillable = []; // can be overridden by child class
+    guarded = []; // can be overridden by child class
+    hidden = []; // can be overridden by child class
+    timestamp = true; // can be overridden by child class
+    softDelete = false; // can be overridden by child class
+    perPage = 10; // can be overridden by child class
+    casts = {}; // can be overridden by child class
+    _query= {}; // init query. should not be overridden by child class
 
-    static flash(child){
+    flash(child){
         // this._query = {}
         // console.log(this._query)
         return child;
@@ -115,7 +114,7 @@ class Model {
      * If select is empty, then use all default fields
      * @param fields - single string (with comma separated) or multiple arguments or array of fields
      */
-    static select(fields) {
+    select(fields) {
         // can accept multiple arguments or array of fields or single string including comma separated fields
         if (arguments.length > 1) fields = Array.from(arguments);
         else if (typeof fields === 'string') fields = fields.split(',');
@@ -131,7 +130,7 @@ class Model {
      * @param fields
      * @param excepts
      */
-    static selectMore(fields = [], excepts = []) {
+    selectMore(fields = [], excepts = []) {
         this._query.select = this._query.select ?? [];
         if (fields.length > 0) {
             this._query.select = this._query.select.concat(fields);
@@ -150,7 +149,7 @@ class Model {
      * @param second - second field to join
      * @param type - type of join (INNER, LEFT, RIGHT, etc.). Default is INNER.
      */
-    static join(table, first, operator, second, type = 'INNER') {
+    join(table, first, operator, second, type = 'INNER') {
         this._query.joins = this._query.joins ?? [];
         this._query.joins.push({ table, first, operator, second, type });
         return this;
@@ -163,7 +162,7 @@ class Model {
      * @param operator - operator
      * @param second - second field to join
      */
-    static leftJoin(table, first, operator, second) {
+    leftJoin(table, first, operator, second) {
         return this.join(table, first, operator, second, 'LEFT');
     }
 
@@ -176,7 +175,7 @@ class Model {
      * @param operator
      * @param value
      */
-    static where(field, operator, value) {
+    where(field, operator, value) {
         this._query.where = this._query.where ?? [];
         if (arguments.length === 1 && typeof field === 'object') {
             // if field is an object key-value pair, we treat it as equal operator with field as key and value as value
@@ -201,7 +200,7 @@ class Model {
      * @param raw - raw query
      * @returns {Model}
      */
-    static whereRaw(raw) {
+    whereRaw(raw) {
         this._query.where = this._query.where ?? [];
         this._query.where.push({ raw: raw, condition: 'AND' });
         return this;
@@ -216,7 +215,7 @@ class Model {
      * @param operator
      * @param value
      */
-    static orWhere(field, operator, value) {
+    orWhere(field, operator, value) {
         this._query.where = this._query.where ?? [];
         if (arguments.length === 1 && typeof field === 'object') {
             // if field is an object key-value pair, we treat it as equal operator with field as key and value as value
@@ -240,7 +239,7 @@ class Model {
      * @param raw - raw query
      * @returns {Model}
      */
-    static orWhereRaw(raw) {
+    orWhereRaw(raw) {
         this._query.where = this._query.where ?? [];
         this._query.where.push({ raw: raw, condition: 'OR' });
         return this;
@@ -251,7 +250,7 @@ class Model {
      * @param field - field name
      * @param values - array of values
      */
-    static whereIn(field, values = []) {
+    whereIn(field, values = []) {
         this._query.where = this._query.where ?? [];
         this._query.where.push({ field: field, operator: 'IN', value: values, condition: 'AND' });
         return this;
@@ -262,7 +261,7 @@ class Model {
      * @param field - field name
      * @param values - array of values
      */
-    static whereNotIn(field, values) {
+    whereNotIn(field, values) {
         this._query.where = this._query.where ?? [];
         this._query.where.push({ field: field, operator: 'NOT IN', value: values, condition: 'AND' });
         return this;
@@ -273,7 +272,7 @@ class Model {
      * @param field
      * @returns {Model}
      */
-    static whereNull(field) {
+    whereNull(field) {
         this._query.where = this._query.where ?? [];
         this._query.where.push({ field: field, operator: 'IS', value: 'NULL', condition: 'AND' });
         return this;
@@ -284,7 +283,7 @@ class Model {
      * @param field
      * @returns {Model}
      */
-    static whereNotNull(field) {
+    whereNotNull(field) {
         this._query.where = this._query.where ?? [];
         this._query.where.push({ field: field, operator: 'IS NOT', value: 'NULL', condition: 'AND' });
         return this;
@@ -294,7 +293,7 @@ class Model {
      * Include soft deleted data
      * @returns {Model}
      */
-    static withTrashed() {
+    withTrashed() {
         this._query.withTrashed = true;
         return this;
     }
@@ -304,7 +303,7 @@ class Model {
      * @param field - field name
      * @param direction - ASC or DESC
      */
-    static orderBy(field, direction = 'ASC') {
+    orderBy(field, direction = 'ASC') {
         this._query.orderBy = { field: field, direction: direction.toUpperCase() };
         return this;
     }
@@ -313,7 +312,7 @@ class Model {
      * Add GROUP BY clause to query
      * @param fields - single string (with comma separated) or multiple arguments or array of fields
      */
-    static groupBy(fields) {
+    groupBy(fields) {
         if (arguments.length > 1) fields = Array.from(arguments);
         else if (typeof fields === 'string') fields = fields.split(',');
         if (fields?.length > 0) {
@@ -327,7 +326,7 @@ class Model {
      * @param limit - number of rows to be returned
      * @param offset - number of rows to be skipped
      */
-    static limit(limit, offset = 0) {
+    limit(limit, offset = 0) {
         this._query.limit = limit;
         this._query.offset = offset;
         return this;
@@ -341,7 +340,7 @@ class Model {
      * @param name - identifier name. If not set, we use table name
      * @param callback - callback function to modify query
      */
-    static hasMany(model, foreignKey, localKey, name = '', callback = null) {
+    hasMany(model, foreignKey, localKey, name = '', callback = null) {
         // if (typeof model === 'function') model = new model();
         if (!name) name = model.table;
         this._query.relations = this._query.relations ?? [];
@@ -365,7 +364,7 @@ class Model {
      * @param callback - callback function to modify query
      * @returns {Model}
      */
-    static hasOne(model, foreignKey, localKey, name = '', callback = null) {
+    hasOne(model, foreignKey, localKey, name = '', callback = null) {
         // if (typeof model === 'function') model = new model();
         if (!name) name = model.table;
         this._query.relations = this._query.relations ?? [];
@@ -381,7 +380,7 @@ class Model {
      * @param name - identifier name. If not set, we use table name
      * @param callback - callback function to modify query
      */
-    static belongsTo(model, foreignKey, ownerKey, name = '', callback = null) {
+    belongsTo(model, foreignKey, ownerKey, name = '', callback = null) {
         // if (typeof model === 'function') model = new model();
         if (!name) name = model.table;
         this._query.relations = this._query.relations ?? [];
@@ -393,7 +392,7 @@ class Model {
      * Add with clause to query. This will add relationship data to result.
      * @param relation - single string of relation or array of relations
      */
-    static with(relation) {
+    with(relation) {
         this._query.with = this._query.with ?? [];
         if (typeof relation === 'string') relation = [relation];
         for (let i = 0; i < relation.length; i++) {
@@ -410,7 +409,7 @@ class Model {
      * Execute raw query
      * @param query - string of query
      */
-    static async rawQuery(query) {
+    async rawQuery(query) {
         this._query.rawQuery = query;
         return await this.get();
     }
@@ -420,7 +419,7 @@ class Model {
      * @param page - page number
      * @param perPage - number of rows per page
      */
-    static async paginate(page = 0, perPage = 0) {
+    async paginate(page = 0, perPage = 0) {
         if (typeof page !== 'number') page = Number(page);
         if (typeof perPage !== 'number') perPage = Number(perPage);
         // if page and perPage is not set, then use query limit and offset if any
@@ -458,7 +457,7 @@ class Model {
      * Get all data
      * @returns {Promise<unknown>}
      */
-    static async get() {
+    async get() {
         // check if soft delete is enabled
         if (this.softDelete && !this._query.withTrashed) this.whereNull('deleted_at');
 
@@ -469,7 +468,7 @@ class Model {
      * Get all data
      * @returns {Promise<unknown>}
      */
-    static async all() {
+    async all() {
         // check if soft delete is enabled
         if (this.softDelete && !this._query.withTrashed) this.whereNull('deleted_at');
 
@@ -481,7 +480,7 @@ class Model {
      * Get first data
      * @returns {Promise<*|null>}
      */
-    static async first() {
+    async first() {
         this._query.limit = 1;
         let result = await this.get();
         return result[0] ?? null;
@@ -492,7 +491,7 @@ class Model {
      * @param primaryKey - primary key value
      * @returns {Promise<*|null>}
      */
-    static async find(primaryKey) {
+    async find(primaryKey) {
         this._query.where = [];
         return await this.where(this.primaryKey, primaryKey).first();
     }
@@ -501,7 +500,7 @@ class Model {
      * Get data count
      * @returns {Promise<*|number>}
      */
-    static async count() {
+    async count() {
         // select count only
         this._query.select = ['COUNT(*) as count'];
         let result = await this.first();
@@ -514,7 +513,7 @@ class Model {
      * @param data
      * @returns {Promise<unknown>}
      */
-    static async insert(data) {
+    async insert(data) {
         this._query.data = _filter.fields(data, this.fillable, this.guarded);
         if (Object.keys(this._query.data).length === 0) return null;
 
@@ -532,7 +531,7 @@ class Model {
      * @param data
      * @returns {Promise<unknown>}
      */
-    static async update(data) {
+    async update(data) {
         this._query.data = _filter.fields(data, this.fillable, this.guarded);
         if (Object.keys(this._query.data).length === 0) return null;
         // for safety, update query must have where clause
@@ -554,7 +553,7 @@ class Model {
      * Delete data. If soft delete is enabled, it will set `deleted_at` column to current datetime.
      * @returns {Promise<unknown>}
      */
-    static async delete() {
+    async delete() {
         // check if soft delete is enabled
         if (this.softDelete) {
             // get only non-deleted data
@@ -572,12 +571,12 @@ class Model {
      * Force delete data. Delete data permanently even if soft delete is enabled.
      * @returns {Promise<unknown>}
      */
-    static async forceDelete() {
+    async forceDelete() {
         this._query.action = 'delete';
         return await _process.call(this)
     }
 
-    static toRaw(){
+    toRaw(){
         const sql = _queryBuilder(this.table, this._query).sql;
         // this._query = {};
         return sql;

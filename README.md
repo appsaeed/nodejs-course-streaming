@@ -1,7 +1,7 @@
 # Nodejs Course Application
 
 ## Overview
-![Course Application](https://fiverr-res.cloudinary.com/image/upload/t_collaboration_hd,q_auto,f_auto/v1/secured-attachments/message/delivery_attachments/bdf6a17003548d83efaa732d9eb24532-1016120531711370950734/IMG-20240325-WA0010.jpg?__cld_token__=exp=1712781397~hmac=087ad32bf5d877c484a2c3d9d7eba114a467cc3ad4a177d2183cddf356053b81)
+![Course Application](https://appsaeed.github.io/assets/images/projects/nodejs-courses/nodejs-courese-application.jpg)
 
 ## Uses
 Install [nodejs](https://nodejs.org/en/download) (if doen't exist in your system) 

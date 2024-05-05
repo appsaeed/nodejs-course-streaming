@@ -104,7 +104,7 @@ class CommentController extends Controller {
                 data.video = req.files?.video[0]?.filename;
             }
 
-            Content.where('id', video_id).update(data)
+            new Content().where('id', video_id).update(data)
             req.flash('messages', ['playlist updated successfully'])
             return res.redirect('back');
         } catch (error) {
@@ -122,7 +122,7 @@ class CommentController extends Controller {
         try {
             const comment_id = req.params?.comment_id || '';
 
-            const deleted = await Comment.where('id', comment_id).delete();
+            const deleted = await new Comment().where('id', comment_id).delete();
 
             if (deleted) {
                 req.flash('messages', ['Content deleted'])
