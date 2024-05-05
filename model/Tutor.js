@@ -27,5 +27,5 @@ class Tutor  extends Model {
     }
 
 }
-Tutor.flash(Tutor)
+// Tutor.flash(Tutor)
 module.exports = Tutor;

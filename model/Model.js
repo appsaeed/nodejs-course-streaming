@@ -29,6 +29,7 @@ async function _process(reset = true) {
             if (ids.length === 0) return;
 
             let model = relation.model;
+            console.log('mode:::::',model);
             let callback = relation.callback;
             model.selectMore([])
             if (callback && typeof callback === 'function') {

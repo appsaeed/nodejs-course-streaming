@@ -22,5 +22,5 @@ class Like extends Model   {
         return this;
     }
 }
-Like.flash(Like)
+// Like.flash(Like)
 module.exports = Like;

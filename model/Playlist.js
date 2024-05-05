@@ -10,5 +10,5 @@ class Playlist  extends Model {
     }
 
 }
-Playlist.flash(Playlist)
+// Playlist.flash(Playlist)
 module.exports = Playlist;

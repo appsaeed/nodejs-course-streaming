@@ -12,5 +12,5 @@ class Bookmark  extends Model {
    }
 
 }
-Bookmark.flash(Bookmark)
+// Bookmark.flash(Bookmark)
 module.exports = Bookmark;

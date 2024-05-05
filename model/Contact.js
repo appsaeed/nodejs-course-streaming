@@ -10,5 +10,5 @@ class Contact  extends Model {
     }
 
 }
-Contact.flash(Contact)
+// Contact.flash(Contact)
 module.exports = Contact;

@@ -10,5 +10,5 @@ class Content  extends Model {
     }
 
 }
-Content.flash(Content);
+// Content.flash(Content);
 module.exports = Content;
